@@ -1,0 +1,11 @@
+h1 {
+	font-size: 2.5em;
+	background-color: #C04023;
+	margin: 0;
+	font-family: fantasy, sans-serif;
+	color: #fff;
+	padding: .25em;
+}
+.active {
+	background-color: yellow;
+}

@@ -1,0 +1,94 @@
+  <div class="container-fluid">
+    <div class="row">
+      <h1 class="col-md-offset-2 col-md-8 text-center">Modify A Driver Name: {{drivername}}</h1>
+    </div>
+    <form #f="ngForm" class="driver_form" [hidden]="submitted">
+      <div class="form row">
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-4">
+            <label class="control-label" for="driver.drivername">
+              User Name
+            </label>
+            <input id="driver.drivername" [(ngModel)]="driver.drivername" class="form-control"
+                   type="text" ngControl="drivername" required>
+            <label class="control-label" for="driver.password">
+              Password
+            </label>
+            <input id="driver.password" [(ngModel)]="driver.password" class="form-control"
+                   type="text" ngControl="password" required>
+
+            <label class="control-label" for="driver.ability">
+              Ability
+            </label>
+            <div id="driver.ability" class="dropdown">
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                Select<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#">Scooter</a></li>
+                <li><a href="#">Motorcycle</a></li>
+                <li><a href="#">Automatic transmission</a></li>
+                <li><a href="#">Manual transmission</a></li>
+                <li><a href="#">Commercial Truck</a></li>
+              </ul>
+            </div>
+            <label class="control-label" for="driver.firstname">
+              First Name
+            </label>
+            <input id="driver.firstname" [(ngModel)]="driver.firstname" class="form-control"
+                   type="text" ngControl="firstname" required>
+            <label class="control-label" for="driver.lastname">
+              Last Name
+            </label>
+            <input id="driver.lastname" [(ngModel)]="driver.lastname" class="form-control"
+                   type="text" ngControl="lastname" required>
+            <label class="control-label" for="driver.email">
+              Email
+            </label>
+            <input id="driver.email" [(ngModel)]="driver.email" class="form-control"
+                   type="text" ngControl="email" required>
+          </div>
+          <div class="col-md-4">
+            <label class="control-label" for="driver.address">
+              Address
+            </label>
+            <input id="driver.address" [(ngModel)]="driver.address" class="form-control"
+                   type="text" ngControl="address" required>
+            <label class="control-label" for="driver.city">
+              City
+            </label>
+            <input id="driver.city" [(ngModel)]="driver.city" class="form-control"
+                   type="text" ngControl="city" required>
+            <label class="control-label" for="driver.state">
+              State
+            </label>
+            <input id="driver.state" [(ngModel)]="driver.state" class="form-control"
+                   type="text" ngControl="state" required>
+            <label class="control-label" for="driver.zip">
+              Zipcode
+            </label>
+            <input id="driver.zip" [(ngModel)]="driver.zip" class="form-control"
+                   type="text" ngControl="zip" required>
+            <label class="control-label" for="driver.phone">
+              Phone
+            </label>
+            <input id="driver.phone" [(ngModel)]="driver.phone" class="form-control"
+                   type="text" ngControl="phone" required>
+          </div>
+        </div>
+        <div class="row">
+          <span *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</span>
+          <span *ngIf="successMessage" class="alert alert-success">{{successMessage}}</span>
+        </div>
+
+        <div class="row btn col-md-offset-8 col-md-2">
+          <span class="col-md-8 text-right">
+            <input type="button" class="btn" value="Cancel" (click)="clear_driver()">
+          </span>
+          <span class="col-md-4 text-right">
+              <input type="submit" class="btn btn-primary" (click)="modify_driver(drivername)"
+                     [disabled]="!f.form.valid" value="Modify">
+          </span>
+        </div>
+      </div>
+    </form>
+  </div>

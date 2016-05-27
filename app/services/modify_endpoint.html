@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <title>endpoint debugger</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <h4>endpoint POST debugger</h4>
+    <form id="my_form" method="POST" onsubmit="post_driver();" action="add_endpoint.php">
+      <p>
+        <label for="drivername">drivername</label>
+        <input type="text" name="drivername" id="drivername" value="aferlazzo">
+        <label for="password">password</label>
+        <input type="text" name="password" id="password" value="secret">
+      </p>
+      <p>
+        <label for="ability">ability</label>
+        <input type="text" name="ability" id="ability" value="scooter">
+        <label for="firstname">firstname</label>
+        <input type="text" name="firstname" id="firstname" value="Tony">
+      </p>
+      <p>
+        <label for="lastname">lastname</label>
+        <input type="text" name="lastname" id="lastname" value="Ferlazzo">
+        <label for="email">email</label>
+        <input type="text" name="email" id="email" value="aferlazzo@gmail.com">
+      </p>
+      <p>
+        <label for="address">address</label>
+        <input type="text" name="address" id="address" value="123 Main Street">
+        <label for="city">city</label>
+        <input type="text" name="city" id="city" value="Tucson">
+      </p>
+      <p>
+        <label for="state">state</label>
+        <input type="text" name="state" id="state" value="Arizona">
+        <label for="zip">zip</label>
+        <input type="text" name="zip" id="zip" value="85742">
+      </p>
+      <p>
+        <label for="phone">phone</label>
+        <input type="text" name="phone" id="phone" value="925-399-5359">
+        <input type="submit"  value="'POST' submit">
+      </p>
+    </form>
+    <script>
+
+      function post_driver() {
+        var post1 = document.querySelector("#drivername");
+        console.log("add_endpoint.html post-driver function sends drivername: " + post1.value);
+        var post1 = document.querySelector("#password");
+        console.log("add_endpoint.html post-driver function sends password: " + post1.value);
+      }
+    </script>
+  </body>
+</html>

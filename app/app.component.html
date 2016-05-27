@@ -1,0 +1,40 @@
+<h1>Angular 2 Demo</h1>
+
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">ng2 Reference App</a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+
+			<ul class="nav navbar-nav">
+				<!-- class='active' (defined and used by Bootstrap) is on the <li> if
+				the 'active_menu' variable equals 'List -->
+				<li [class.active]="active_menu=='List'">
+					<a [routerLink]="['/']" (click)='change_active_menu("List")' >List Drivers</a>
+				</li>
+				<li [class.active]="active_menu=='Add'">
+					<a [routerLink]="['/add']" (click)='change_active_menu("Add")'>Add A Driver</a>
+				</li>
+
+				<!--
+					We use a 'Route parameters object' to specify the drivername we want to modify or delete
+					by making it the second item of the link parameters array. In the modify.component.ts
+					file we read the query string
+				-->
+				<li [class.active]="active_menu=='Modify'">
+					<a [routerLink]="['/modify', {drivername: selected_driver_name}]" (click)='change_active_menu("Modify")'>Modify A Driver</a>
+				</li>
+				<li [class.active]="active_menu=='Delete'">
+					<a [routerLink]="['/delete', {drivername: selected_driver_name}]" (click)='change_active_menu("Delete")'>Delete A Driver</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<router-outlet></router-outlet>

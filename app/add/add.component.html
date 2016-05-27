@@ -1,0 +1,83 @@
+  <div class="container-fluid">
+    <div class="row">
+      <h1 class="col-md-offset-2 col-md-8 text-center">Add Driver</h1>
+    </div>
+    <form #f="ngForm" class="driver_form" [hidden]="submitted">
+      <div class="form row">
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-4">
+            <label class="control-label" for="driver_drivername">
+              User Name
+            </label>
+            <input id="driver_drivername" [(ngModel)]="driver.drivername" class="form-control"
+                   type="text" ngControl="drivername" required>
+            <label class="control-label" for="driver_password">Password</label>
+            <input id="driver_password" [(ngModel)]="driver.password" class="form-control"
+                   type="text" ngControl="password" required>
+
+            <label class="control-label" for="driver_ability">Driving Ability</label>
+            <select id="driver_ability" class="form-control" required [(ngModel)]="driver.ability">
+              <option *ngFor="let ab of driving_ability_list" [value]="ab">{{ab}}</option>
+            </select>
+
+            <label class="control-label" for="driver.firstname">
+              First Name
+            </label>
+            <input id="driver.firstname" [(ngModel)]="driver.firstname" class="form-control"
+                   type="text" ngControl="firstname" required>
+            <label class="control-label" for="driver_lastname">
+              Last Name
+            </label>
+            <input id="driver_lastname" [(ngModel)]="driver.lastname" class="form-control"
+                   type="text" ngControl="lastname" required>
+            <label class="control-label" for="driver_email">
+              Email
+            </label>
+            <input id="driver_email" [(ngModel)]="driver.email" class="form-control"
+                   type="text" ngControl="email" required>
+          </div>
+          <div class="col-md-4">
+            <label class="control-label" for="driver_address">
+              Address
+            </label>
+            <input id="driver_address" [(ngModel)]="driver.address" class="form-control"
+                   type="text" ngControl="address" required>
+            <label class="control-label" for="driver_city">
+              City
+            </label>
+            <input id="driver_city" [(ngModel)]="driver.city" class="form-control"
+                   type="text" ngControl="city" required>
+            <label class="control-label" for="driver_state">
+              State
+            </label>
+            <input id="driver_state" [(ngModel)]="driver.state" class="form-control"
+                   type="text" ngControl="state" required>
+            <label class="control-label" for="driver_zip">
+              Zipcode
+            </label>
+            <input id="driver_zip" [(ngModel)]="driver.zip" class="form-control"
+                   type="text" ngControl="zip" required>
+            <label class="control-label" for="driver_phone">
+              Phone
+            </label>
+            <input id="driver_phone" [(ngModel)]="driver.phone" class="form-control"
+                   type="text" ngControl="phone" required>
+            <div class="form btn_row">
+              <span class="col-md-6 text-right">
+                <input type="button" class="btn" value="Cancel" (click)="clear_driver()">
+              </span>
+              <span class="col-md-6 text-right">
+                  <input type="submit" class="btn btn-primary" (click)="add_driver(driver)"
+                         [disabled]="!f.form.valid" value="Add">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form row">
+        <span *ngIf="errorMessage" class=" col-md-offset-2 col-md-4 alert alert-danger">{{errorMessage}}</span>
+        <span *ngIf="successMessage" class=" col-md-offset-2 col-md-4 alert alert-success">{{successMessage}}</span>
+      </div>
+
+    </form>
+  </div>
