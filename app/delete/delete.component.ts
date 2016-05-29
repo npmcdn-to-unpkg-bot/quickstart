@@ -1,57 +1,36 @@
-
-import { Component }          from '@angular/core';
+import { Component, OnInit }  from '@angular/core';
 import { HTTP_PROVIDERS }     from '@angular/http';
+import { Routes, Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { DeleteService }      from '../services/delete.service';
 import { Driver }             from '../driver';
-import { MOCK_DRIVERS }       from '../services/mock-drivers';
+import { DriverService }      from '../services/driver.service';
 
 @Component({
   selector: 'my-delete',
   templateUrl: 'app/delete/delete.component.html',
   styleUrls: ['app/delete/delete.component.css'],
-  providers: [  HTTP_PROVIDERS,  DeleteService, Driver ]
+  providers: [ HTTP_PROVIDERS,  DeleteService, Driver ],
+  directives: [ROUTER_DIRECTIVES]
 })
 
-export class DeleteComponent {
+export class DeleteComponent implements OnInit {
 
   constructor (
-    private _deleteService: DeleteService
+    private _deleteService: DeleteService,
+    private driverService: DriverService
   ) { }
 
-  driver: Driver;
+  private message = {
+    success: '',
+    error: ''
+  };
 
-  errorMessage: string;
-  successMessage: string;
+  ngOnInit (){
+    var selected_rows = 0;
 
-  /*
-   delete_driver() is the event handler for clicking the Delete button. It calls the delete service.
-   */
-  delete_driver(driver:Driver) {
-    this._deleteService.delete_driver_API(driver)
-        .subscribe(
-            driver  => /* if here then record modified, so now clear fields */ this.clear_driver(),
-            error => {
-              if (error.status == "403") {
-                this.errorMessage = "Oops, Duplicate Driver Name";
-              } else {
-                this.errorMessage = "Unknown error";
-              }
-            }
-        );
+    selected_rows = this.driverService.find_selected();
+
+    this.message = this.driverService.delete_driver_API();
   }
 
-  clear_driver() {
-    this.driver.selected = false;
-    this.driver.drivername = "";
-    this.driver.password = "";
-    this.driver.ability = "";
-    this.driver.firstname = "";
-    this.driver.lastname = "";
-    this.driver.email = "";
-    this.driver.address = "";
-    this.driver.city = "";
-    this.driver.state = "";
-    this.driver.zip = "";
-    this.driver.phone = "";
-  }
 }

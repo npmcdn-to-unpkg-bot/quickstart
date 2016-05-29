@@ -1,4 +1,3 @@
-
 import { Component, OnInit }  from '@angular/core';
 import { FORM_DIRECTIVES,
           FORM_PROVIDERS }    from '@angular/common';
@@ -6,8 +5,8 @@ import { NgClass }            from '@angular/common';
 import { Router }             from '@angular/router';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
-import { ListService }        from '../services/list.service';
 import { SelectService }      from '../services/select.service';
+import { ListService }        from '../services/list.service';
 
 @Component({
   selector: 'my-list',
@@ -29,7 +28,7 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     console.info('list.component.ts initialized');
   }
-  
+
   errorMessage = "";
   saved_drivername = "";
   last_row_selected = -1;

@@ -1,6 +1,5 @@
   import { Component, OnInit, OnChanges } from '@angular/core';
   import { Routes, Router, ROUTER_DIRECTIVES } from '@angular/router';
-
   import { ListComponent }                from './list/list.component';
   import { AddComponent }                 from './add/add.component';
   import { ModifyComponent }              from './modify/modify.component';
@@ -28,10 +27,6 @@ export class AppComponent implements OnInit {
   constructor(private driverService: DriverService,
       private router: Router) {}
 
-  // set the initial value to pass to add.component.ts, modify.component.ts, and list.component.ts
-  // to indicate which navbar item is highlighted through the @Input decorator in those files
-  public active_menu = "List";
-  public selected_driver_name = "dummy+driver+name";
   drivers:Driver[];
 
   ngOnInit() {
@@ -45,14 +40,5 @@ export class AppComponent implements OnInit {
       console.info('app.component.ts There are ' +
           this.drivers.length + ' driver records being returned');
     }
-  }
-
-
-  change_active_menu(next_active_menu:string) {
-    var msg = `change_active_menu(`+ next_active_menu + `)`;
-    var zzz = this.driverService.driverArray.length;
-
-    console.log(msg + " I now have " + zzz + " drivers");
-    this.active_menu = next_active_menu;
   }
 }

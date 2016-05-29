@@ -16,10 +16,12 @@
 				<!-- class='active' (defined and used by Bootstrap) is on the <li> if
 				the 'active_menu' variable equals 'List -->
 				<li [class.active]="active_menu=='List'">
-					<a [routerLink]="['/']" (click)='change_active_menu("List")' >List Drivers</a>
+					<a [routerLink]="['/']"
+						 (click)='driverService.change_active_menu("List")'>List Drivers</a>
 				</li>
 				<li [class.active]="active_menu=='Add'">
-					<a [routerLink]="['/add']" (click)='change_active_menu("Add")'>Add A Driver</a>
+					<a [routerLink]="['/add']"
+						 (click)='driverService.change_active_menu("Add")'>Add A Driver</a>
 				</li>
 
 				<!--
@@ -27,11 +29,14 @@
 					by making it the second item of the link parameters array. In the modify.component.ts
 					file we read the query string
 				-->
+
 				<li [class.active]="active_menu=='Modify'">
-					<a [routerLink]="['/modify', {drivername: selected_driver_name}]" (click)='change_active_menu("Modify")'>Modify A Driver</a>
+					<a [routerLink]="['/modify']"
+						 (click)='driverService.change_active_menu("Modify")'>Modify Selected</a>
 				</li>
 				<li [class.active]="active_menu=='Delete'">
-					<a [routerLink]="['/delete', {drivername: selected_driver_name}]" (click)='change_active_menu("Delete")'>Delete A Driver</a>
+					<a [routerLink]="['/delete']"
+						 (click)='driverService.change_active_menu("Delete")'>Delete Selected</a>
 				</li>
 			</ul>
 		</div>

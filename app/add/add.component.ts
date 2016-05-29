@@ -1,42 +1,84 @@
-import { Component }            from '@angular/core';
-import { FORM_DIRECTIVES, FORM_PROVIDERS }    from '@angular/common';
-import { HTTP_PROVIDERS }       from '@angular/http';
-import { Driver }               from '../driver';
-import { DriverService }        from '../services/driver.service';
-import { AddService }           from '../services/add.service';
+import { Component, OnInit }  from '@angular/core';
+import { FORM_DIRECTIVES ,
+    FORM_PROVIDERS }          from '@angular/common';
+import { Router }             from '@angular/router';
+import { Driver }             from '../driver';
+import { DriverService }      from '../services/driver.service';
+import { SelectService }      from '../services/select.service';
+import { AddService }         from '../services/add.service';
 
 @Component({
   selector: 'my-add',
   templateUrl: 'app/add/add.component.html',
   styleUrls: ['app/add/add.component.css'],
-  providers: [ FORM_PROVIDERS, HTTP_PROVIDERS, AddService, Driver ],
+  providers: [ FORM_PROVIDERS, AddService, SelectService, Driver ],
   directives: [ FORM_DIRECTIVES ]
 })
 
-export class AddComponent {
+export class AddComponent implements OnInit{
 
   constructor (
-    private _addService: AddService
+    private _addService: AddService,
+    private driverService: DriverService
   ) { }
 
   driving_ability_list = ['Bicycle', 'Scooter', 'Motorcycle', 'Car with Automatic Transmission',
     'Car with Manual Transmission', 'Commercial Truck'];
-	driver:Driver;
+	//driver:Driver;
 
-  chosen_ability:string = 'Select';
+  driver = {
+    selected: false,
+    drivername: 'new driver',
+    password: '',
+    ability: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    phone: ''
+  };
+
+  chosen_ability:string = 'Select One';
 
   errorMessage: string;
   successMessage: string;
   submitted = false;
 
+  clear_driver(driver:Driver) {
+    driver.selected = false;
+    driver.drivername = '';
+    driver.password = '';
+    driver.ability = '';
+    driver.firstname = '';
+    driver.lastname = '';
+    driver.email = '';
+    driver.address = '';
+    driver.city = '';
+    driver.state = '';
+    driver.zip = '';
+    driver.phone = '';
+
+    this.chosen_ability = 'Select';
+    return driver;
+  }
+
+
+  ngOnInit() {
+    this.driver = this.clear_driver(this.driver);
+  }
+
   eraseMsg(){
-      this.successMessage = '';
-      this.errorMessage='';
+    this.successMessage = '';
+    this.errorMessage = '';
+    this.driver = this.clear_driver(this.driver);
+
   }
 
   slowErase () {
-    window.setTimeout(this.eraseMsg, 5000);
-
+    window.setTimeout(this.eraseMsg, 2000);
   }
 
   /*
@@ -46,13 +88,17 @@ export class AddComponent {
     this.successMessage='';
     this.errorMessage='';
 
-    this._addService.add_driver_API(driver)
+
+    this._addService.add_driver_to_database(driver)
         .subscribe(
             driver  => {
+              //**** must add new driver to end of driver_array, so the list view will reflect this new driver ***
+              this.driverService.add_driver_to_driverArray(driver);
+
               /* if here then record added, so now clear fields */
-              this.clear_driver();
+              this.clear_driver(driver);
               this.successMessage = 'Driver Added';
-              window.setTimeout(this.slowErase, 2000);
+              this.slowErase();
             },
             error => {
               if (error.status == '403') {
@@ -60,27 +106,11 @@ export class AddComponent {
               } else {
                 this.errorMessage = 'Unknown error';
               }
-              window.setTimeout(this.slowErase, 5000);
+              this.slowErase();
             }
         );
   }
 
-  clear_driver() {
-    this.driver.selected = false;
-    this.driver.drivername = '';
-    this.driver.password = '';
-    this.driver.ability = '';
-    this.driver.firstname = '';
-    this.driver.lastname = '';
-    this.driver.email = '';
-    this.driver.address = '';
-    this.driver.city = '';
-    this.driver.state = '';
-    this.driver.zip = '';
-    this.driver.phone = '';
-
-    this.chosen_ability = 'Select';
-  }
 
   // click handler for the drive ability list items
   update_ability(e:Event, chosen:string) {
