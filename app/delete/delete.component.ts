@@ -1,7 +1,6 @@
 import { Component, OnInit }  from '@angular/core';
 import { HTTP_PROVIDERS }     from '@angular/http';
-import { Routes, Router, ROUTER_DIRECTIVES } from '@angular/router';
-import { DeleteService }      from '../services/delete.service';
+import { Router } from '@angular/router';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
 
@@ -9,14 +8,12 @@ import { DriverService }      from '../services/driver.service';
   selector: 'my-delete',
   templateUrl: 'app/delete/delete.component.html',
   styleUrls: ['app/delete/delete.component.css'],
-  providers: [ HTTP_PROVIDERS,  DeleteService, Driver ],
-  directives: [ROUTER_DIRECTIVES]
+  providers: [ HTTP_PROVIDERS,  Driver ]
 })
 
 export class DeleteComponent implements OnInit {
 
   constructor (
-    private _deleteService: DeleteService,
     private driverService: DriverService
   ) { }
 

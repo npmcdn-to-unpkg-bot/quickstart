@@ -12,16 +12,21 @@
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 
+			<!--
+
+				when the nav bar item is clicked change to item background highlight
+
+			-->
 			<ul class="nav navbar-nav">
 				<!-- class='active' (defined and used by Bootstrap) is on the <li> if
 				the 'active_menu' variable equals 'List -->
 				<li [class.active]="active_menu=='List'">
 					<a [routerLink]="['/']"
-						 (click)='driverService.change_active_menu("List")'>List Drivers</a>
+						 (click)='change_active_menu("List")'>List Drivers</a>
 				</li>
 				<li [class.active]="active_menu=='Add'">
 					<a [routerLink]="['/add']"
-						 (click)='driverService.change_active_menu("Add")'>Add A Driver</a>
+						 (click)='change_active_menu("Add")'>Add A Driver</a>
 				</li>
 
 				<!--
@@ -32,11 +37,11 @@
 
 				<li [class.active]="active_menu=='Modify'">
 					<a [routerLink]="['/modify']"
-						 (click)='driverService.change_active_menu("Modify")'>Modify Selected</a>
+						 (click)='change_active_menu("Modify")'>Modify Selected</a>
 				</li>
 				<li [class.active]="active_menu=='Delete'">
 					<a [routerLink]="['/delete']"
-						 (click)='driverService.change_active_menu("Delete")'>Delete Selected</a>
+						 (click)='change_active_menu("Delete")'>Delete Selected</a>
 				</li>
 			</ul>
 		</div>

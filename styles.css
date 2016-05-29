@@ -53,10 +53,12 @@ nav a:hover {
   color: #039be5;
   background-color: #CFD8DC;
 }
+/*
 nav a.router-link-active {
   color: #039be5;
+  background-color: #d8f3ff;
 }
-
+*/
 /* items class */
 .items {
   margin: 0 0 2em 0;
@@ -141,7 +143,3 @@ nav a.router-link-active {
 }
 
 
-
-nav.navbar .router-link-active {
-    background-color: #eee;
-}

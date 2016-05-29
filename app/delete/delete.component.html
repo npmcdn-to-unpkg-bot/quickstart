@@ -1,16 +1,13 @@
   <div class="container-fluid">
     <div class="row">
       <h1 class="col-md-offset-2 col-md-8 text-center">
-        Deleted Driver</h1>
+        Delete Driver</h1>
     </div>
     <div class="row">
       <p>
         <span *ngIf="message.error" class="col-md-offset-4 alert alert-danger">{{message.error}}</span>
 
         <span *ngIf="message.success" class="col-md-offset-4 alert alert-success">{{message.success}}</span>
-
-        <a (click)="driverService.change_active_menu('List')"
-           class="col-md-offset-6 col-md-1 text-right btn btn-success" [routerLink]="['/']">Okay</a>
       </p>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Response, Headers}   from '@angular/http';
 import {Observable}                from 'rxjs/Observable';
-
+import {RequestOptions}            from '@angular/http';
 import { Driver }  from '../driver';
 import { MOCK_DRIVERS }  from './mock-drivers';
 
@@ -42,10 +42,6 @@ export class DriverService {
   errorMessage = '';
   saved_drivername = "";
   last_row_selected = -1;
-
-  // set the initial value to pass to add.component.ts, modify.component.ts, and list.component.ts
-  // to indicate which navbar item is highlighted through the @Input decorator in those files
-  public active_menu = "List";
 
   private message = {
     success: '',
@@ -93,12 +89,12 @@ export class DriverService {
     let list_url = "/app/services/list_endpoint.php";
 
     driver_data = this.http.get(list_url, {headers: getHeaders})
-        .map(this.extractData)
-        .catch(this.handleError);
+        .map(this.extractDataGET)
+        .catch(this.handleErrorGET);
     return driver_data;
   }
 
-  private extractData(response: Response) {
+  private extractDataGET(response: Response) {
     var body = response.json();
     if (response.status < 200 || response.status >= 300) {
       throw new Error('Bad response status: ' +
@@ -110,11 +106,11 @@ export class DriverService {
   }
 
 
-  private handleError (error: any) {
+  private handleErrorGET (error: any) {
     // In a real world app, we might send the error to remote logging infrastructure
     var errMsg = error || 'Server error';
     console.log(errMsg); // log to console instead
-    alert ("list.service.ts handleError() '" + errMsg + "'. Did not receive driver list!");
+    alert ("driver.service.ts handleErrorGET() '" + errMsg + "'. Did not receive driver list!");
     return Observable.throw(errMsg);
   }
 
@@ -138,18 +134,6 @@ export class DriverService {
         );
   }
 
-  /*
-   change_active_menu is the click handler for the navbar in the app.component.html file.
-   The configued routes determine what happens next...
-   */
-
-  change_active_menu(next_active_menu:string) {
-    var msg = `change_active_menu(`+ next_active_menu + `)`;
-    var zzz = this.driverArray.length;
-
-    console.log(msg + " I now have " + zzz + " drivers");
-    this.active_menu = next_active_menu;
-  }
 
   /*
 
@@ -214,8 +198,8 @@ export class DriverService {
 
     if (rows_highlighted > 0) {
       this.driverArray = updated_driver_array;
-      this.message.success = "Driver List updated. Deleted " +
-          rows_highlighted + " row" + (rows_highlighted > 1 ? "s" : "");
+      this.message.success = "Deleted " +
+          rows_highlighted + " driver" + (rows_highlighted > 1 ? "s" : "") + " from Driver List";
       this.message.error = '';
     } else {
       this.message.error = "Select a driver to delete by clicking/highlighting its row in the list";
@@ -240,4 +224,82 @@ export class DriverService {
     }
     return selected_rows;
   }
+
+
+
+
+
+
+
+
+
+  add_driver_to_database(driver:Driver): Observable<Driver> {
+    var driver_json_input: Object;
+    var new_driver: Object;
+
+    driver_json_input = {
+      "drivername": driver.drivername,
+      "password": driver.password,
+      "ability": driver.ability,
+      "firstname": driver.firstname,
+      "lastname": driver.lastname,
+      "email": driver.email,
+      "address": driver.address,
+      "city": driver.city,
+      "state": driver.state,
+      "zip": driver.zip,
+      "phone": driver.phone
+    };
+
+    new_driver = {
+      "seleceted": false,
+      "drivername": driver.drivername,
+      "password": driver.password,
+      "ability": driver.ability,
+      "firstname": driver.firstname,
+      "lastname": driver.lastname,
+      "email": driver.email,
+      "address": driver.address,
+      "city": driver.city,
+      "state": driver.state,
+      "zip": driver.zip,
+      "phone": driver.phone
+    };
+
+
+
+    let body = JSON.stringify(driver_json_input);
+
+
+    console.log("add_driver_to_database body (the json string input) " + body);
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    let add_url = "http://" + location.host + "/app/services/add_endpoint.php";
+
+    return this.http.post(add_url, body, options)
+        .map(this.extractData)
+        .catch(this.handleError);
+  }
+
+
+  private extractData(response: Response) {
+    if (!(response.status < 200 || response.status >= 300)) {
+
+    } else {
+      throw new Error('Bad response status: ' +  response.status);
+    }
+
+    let body = response.statusText;
+  }
+
+
+  private handleError (error: any) {
+    // In a real world app, we might send the error to remote logging infrastructure
+    let errMsg = error || 'Server error';
+    console.log(errMsg); // log to console instead
+    return Observable.throw(errMsg);
+  }
+
 }

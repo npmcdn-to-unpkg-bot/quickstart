@@ -37,25 +37,6 @@ button:disabled {
   cursor: auto;
 }
 
-/* Navigation link styles */
-nav a {
-  padding: 5px 10px;
-  text-decoration: none;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #eee;
-  border-radius: 4px;
-}
-nav a:visited, a:link {
-  color: #607D8B;
-}
-nav a:hover {
-  color: #039be5;
-  background-color: #CFD8DC;
-}
-nav a.router-link-active {
-  color: #039be5;
-}
 table {
   margin:0 auto;
 }
@@ -65,14 +46,6 @@ td, th {
 td:hover {
   cursor:pointer;
 }
-/*
-input[type=radio] {
-  height: 1em;
-}
-tr:nth-child(odd) td {
-  background-color: #eee;
-}
-*/
 .selected_background {
   background-color: #D1E3E3 !important;
 }
