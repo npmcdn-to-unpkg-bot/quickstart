@@ -68,6 +68,11 @@ export class DriverService {
     error: ''
   };
 
+  public MY_ROWS = {
+    total_selected: Number,
+    last_selected_index: Number
+  };
+
 
   fillDriverArray():void {
     console.info('driver.service.ts in fillDriverArray()');
@@ -232,18 +237,28 @@ export class DriverService {
   /*
 
    find_selected () is run OnInit for the delete view (in delete.component.ts)
+
+   returns an object = {
+     total_selected: total_selected,
+     last_selected_index: last_selected_index
+   }
    */
 
-  find_selected() {
+  find_selected():any {
     var len = this.driverArray.length;
-    var selected_rows = 0;
+    var my_rows = {
+      total_selected: 0,
+      last_selected_index: 0
+    };
 
     for (let i = 0; i < len; i++) {
       if (this.driverArray[i].selected == true) {
-        selected_rows++;
+        my_rows.total_selected++;
+        my_rows.last_selected_index = i;
       }
     }
-    return selected_rows;
+
+    return my_rows;
   }
 
 
@@ -313,6 +328,22 @@ export class DriverService {
     return Observable.throw(errMsg);
   }
 
+  private extractData_for_delete(response:Response) {
+    if (!(response.status < 200 || response.status >= 300)) {
+    } else {
+      throw new Error('Bad response status: ' +  response.status + ' ' + response.statusText);
+    }
+  }
+
+
+  private handleError_for_delete (error: any) {
+    // In a real world app, we might send the error to remote logging infrastructure
+    let errMsg = error || 'Server error';
+
+    console.log("handleError_for_delete() " + errMsg); // log to console instead
+    return Observable.throw(errMsg);
+  }
+
 
   /*
 
@@ -337,8 +368,8 @@ export class DriverService {
         stringified_json + "'");
 
     return this.http.post(delete_url, stringified_json, options)
-       .map(this.extractData_for_delete)
-       .catch(this.handleError_for_delete);
+        .map(this.extractData_for_delete)
+        .catch(this.handleError_for_delete);
   }
 
 
@@ -357,4 +388,81 @@ export class DriverService {
       }
     }
   }
+
+
+
+  /*
+
+   modify_selected_driver_in_database() Looks at the existing driverService.driverArray
+   and modifies the matching driver that are selected.
+
+   */
+  modify_selected_driver_in_database(i:number):Observable<Driver> {
+    var driver_json_input = { drivername:'' };
+    var stringified_json:string;
+    var headers = new Headers({'Content-Type': 'application/json'});
+    var options = new RequestOptions({headers: headers});
+    var modify_url = "http://" + location.host + "/app/services/modify_endpoint.php";
+
+    // Modify the driverArray member with selected == true from the driver database.
+
+    driver_json_input.drivername = this.look_for_selected_drivers();
+    stringified_json = JSON.stringify(driver_json_input);
+
+    console.log("modify_selected_driver_in_database(" + i + ") found selected row: the driver '" +
+        driver_json_input.drivername + "', POST to modify_url " + modify_url + " with stringified_json '" +
+        stringified_json + "'");
+
+    return this.http.post(modify_url, stringified_json, options)
+        .map(this.extractData_for_modify)
+        .catch(this.handleError_for_modify);
+  }
+
+  private extractData_for_modify(response:Response) {
+    if (!(response.status < 200 || response.status >= 300)) {
+    } else {
+      throw new Error('Bad response status: ' +  response.status + ' ' + response.statusText);
+    }
+  }
+
+
+  private handleError_for_modify(error: any) {
+    // In a real world app, we might send the error to remote logging infrastructure
+    let errMsg = error || 'Server error';
+
+    console.log("handleError_for_delete() " + errMsg); // log to console instead
+    return Observable.throw(errMsg);
+  }
+
+  /*
+
+   modify_selected_driver_in_driverArray(i) Looks at the existing driverService.driverArray and update
+   the array member that is selected.
+
+   */
+
+  modify_selected_driver_in_driverArray(i:number):Driver {
+    if (this.driverArray[i].selected == true) {
+      console.log("modify_selected_driver_in_driverArray(" + i + ") found selected row: drivername '" +
+          this.driverArray[i].drivername + "' at index " + i);
+
+      return {
+        "selected": this.driverArray[i].selected,
+        "drivername": this.driverArray[i].drivername,
+        "password": this.driverArray[i].password,
+        "ability": this.driverArray[i].ability,
+        "firstname": this.driverArray[i].firstname,
+        "lastname": this.driverArray[i].lastname,
+        "email": this.driverArray[i].email,
+        "address": this.driverArray[i].address,
+        "city": this.driverArray[i].city,
+        "state": this.driverArray[i].state,
+        "zip": this.driverArray[i].zip,
+        "phone": this.driverArray[i].phone
+      }
+    }
+
+    alert("First select a Driver to modify");
+  }
+
 }
