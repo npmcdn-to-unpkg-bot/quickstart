@@ -20,11 +20,11 @@
 			<ul class="nav navbar-nav">
 				<!-- class='active' (defined and used by Bootstrap) is on the <li> if
 				the 'active_menu' variable equals 'List -->
-				<li [class.active]="active_menu=='List'">
+				<li [class.active]="driverService.active_menu=='List'">
 					<a [routerLink]="['/']"
 						 (click)='change_active_menu("List")'>List Drivers</a>
 				</li>
-				<li [class.active]="active_menu=='Add'">
+				<li [class.active]="driverService.active_menu=='Add'">
 					<a [routerLink]="['/add']"
 						 (click)='change_active_menu("Add")'>Add A Driver</a>
 				</li>
@@ -35,11 +35,11 @@
 					file we read the query string
 				-->
 
-				<li [class.active]="active_menu=='Modify'">
+				<li [class.active]="driverService.active_menu=='Modify'">
 					<a [routerLink]="['/modify']"
 						 (click)='change_active_menu("Modify")'>Modify Selected</a>
 				</li>
-				<li [class.active]="active_menu=='Delete'">
+				<li [class.active]="driverService.active_menu=='Delete'">
 					<a [routerLink]="['/delete']"
 						 (click)='change_active_menu("Delete")'>Delete Selected</a>
 				</li>

@@ -1,5 +1,6 @@
 import { Component, OnInit }  from '@angular/core';
 import { HTTP_PROVIDERS }     from '@angular/http';
+import { Router }             from '@angular/router';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
 
@@ -13,7 +14,8 @@ import { DriverService }      from '../services/driver.service';
 export class DeleteComponent implements OnInit {
 
   constructor (
-    private driverService: DriverService
+    private driverService: DriverService,
+    private router: Router
   ) { }
 
   private message = {
@@ -21,27 +23,41 @@ export class DeleteComponent implements OnInit {
     error: ''
   };
 
+  my_row = {
+    total_selected: 0,
+    last_selected_index: 0
+  };
+
   ngOnInit (){
-    var selected_rows = 0;
+    // find selected rows
+    this.my_row = this.driverService.find_selected();
 
-    selected_rows = this.driverService.find_selected();
+    if (this.my_row.total_selected < 1) {
+      alert("Select one or more rows to delete");
 
-    this.driverService.delete_selected_driver_from_database()
-        .subscribe(
-            driver  => {
-              //**** must delete driver from driver_array, so the list view will reflect this delete ***
-              this.driverService.delete_selected_driver_from_driverArray();
+      // go back to list view
+      this.router.navigate(['/']);
+      this.driverService.active_menu = "List";
 
-              this.message.success = 'Driver deleted';
-            },
-            error => {
-              if (error.status == '404') {
-                this.message.error = 'Driver not found';
-              } else {
-                this.message.error = 'Unknown error';
+    } else {
+
+      this.driverService.delete_selected_driver_from_database()
+          .subscribe(
+              driver => {
+                //**** must delete driver from driver_array, so the list view will reflect this delete ***
+                this.driverService.delete_selected_driver_from_driverArray();
+
+                this.message.success = 'Driver deleted';
+              },
+              error => {
+                if (error.status == '404') {
+                  this.message.error = 'Driver not found';
+                } else {
+                  this.message.error = 'Unknown error';
+                }
               }
-            }
-        );
+          );
+    }
   }
 
 }

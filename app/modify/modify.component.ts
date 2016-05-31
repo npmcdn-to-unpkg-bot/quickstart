@@ -2,6 +2,7 @@ import { Component, OnInit }  from '@angular/core';
 import { FORM_DIRECTIVES ,
     FORM_PROVIDERS }          from '@angular/common';
 import { HTTP_PROVIDERS }     from '@angular/http';
+import { Router }             from '@angular/router';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
 import { SelectService }      from '../services/select.service';
@@ -16,7 +17,8 @@ import { SelectService }      from '../services/select.service';
 
 export class ModifyComponent implements OnInit {
   constructor(
-      private driverService: DriverService
+      private driverService: DriverService,
+      private router: Router
       ) {  }
 
   private message = {
@@ -49,31 +51,46 @@ export class ModifyComponent implements OnInit {
 
   ngOnInit (){
 
+    // find selected rows
     this.my_row = this.driverService.find_selected();
 
-    if (this.my_row.total_selected > 1) {
-      alert("Select a single row to modify");
-      // go back to list
+    if (this.my_row.total_selected != 1) {
+      alert("Select one row to modify");
 
-    }
+      // go back to list view
+      this.router.navigate(['/']);
+      this.driverService.active_menu = "List";
 
-    this.driverService.modify_selected_driver_in_database(this.my_row.last_selected_index)
-        .subscribe(
-            driver  => {
-              //**** must delete driver from driver_array, so the list view will reflect this delete ***
-              this.driver =
-                  this.driverService.modify_selected_driver_in_driverArray(this.my_row.last_selected_index);
+    } else {
 
-              this.message.success = 'Driver found';
-            },
-            error => {
-              if (error.status == '404') {
-                this.message.error = 'Driver not found';
-              } else {
-                this.message.error = 'Unknown error';
+      this.driverService.modify_selected_driver_in_database(this.my_row.last_selected_index)
+          .subscribe(
+              driver => {
+                //**** must delete driver from driver_array, so the list view will reflect this delete ***
+                this.driver =
+                    this.driverService.modify_selected_driver_in_driverArray(this.my_row.last_selected_index);
+
+                this.message.success = 'Driver found';
+              },
+              error => {
+                if (error.status == '404') {
+                  this.message.error = 'Driver not found';
+                } else {
+                  this.message.error = 'Unknown error';
+                }
               }
-            }
-        );
+          );
+    }
+  }
+
+
+  /*
+      modify_driver() is the click handler for the Modify button on the modify page.
+   */
+  modify_driver(driver:Driver){
+    alert('Update database for Driver ' + driver.drivername + ' here');
+
+    // this.driver has updated values
   }
 
 }

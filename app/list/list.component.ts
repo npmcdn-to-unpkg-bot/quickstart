@@ -2,7 +2,6 @@ import { Component, OnInit }  from '@angular/core';
 import { FORM_DIRECTIVES,
           FORM_PROVIDERS }    from '@angular/common';
 import { NgClass }            from '@angular/common';
-import { Router }             from '@angular/router';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
 import { SelectService }      from '../services/select.service';
@@ -22,7 +21,6 @@ export class ListComponent implements OnInit {
               private _selectService:SelectService,
               private driverService: DriverService) {}
 
-  router: Router;
   drivers = this.driverService.driverArray;
 
   ngOnInit() {

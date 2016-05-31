@@ -58,6 +58,12 @@ export class DriverService {
    */
   driverArray:Driver[];
 
+  // set the initial value to pass to app.component.change_active_menu() from
+  // list.component.ts, add.component.ts, modify.component.ts, and delete.component.ts
+  // to update which navbar item is highlighted when a View change occurs
+  public active_menu = "List";
+
+
   // the model being shown on page
   errorMessage = '';
   saved_drivername = "";
@@ -67,12 +73,6 @@ export class DriverService {
     success: '',
     error: ''
   };
-
-  public MY_ROWS = {
-    total_selected: Number,
-    last_selected_index: Number
-  };
-
 
   fillDriverArray():void {
     console.info('driver.service.ts in fillDriverArray()');
@@ -327,23 +327,6 @@ export class DriverService {
     console.log("handleError_for_delete() " + errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
-
-  private extractData_for_delete(response:Response) {
-    if (!(response.status < 200 || response.status >= 300)) {
-    } else {
-      throw new Error('Bad response status: ' +  response.status + ' ' + response.statusText);
-    }
-  }
-
-
-  private handleError_for_delete (error: any) {
-    // In a real world app, we might send the error to remote logging infrastructure
-    let errMsg = error || 'Server error';
-
-    console.log("handleError_for_delete() " + errMsg); // log to console instead
-    return Observable.throw(errMsg);
-  }
-
 
   /*
 

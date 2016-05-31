@@ -28,9 +28,6 @@ export class AppComponent implements OnInit {
       private router: Router) {}
 
   drivers:Driver[];
-  // set the initial value to pass to add.component.ts, modify.component.ts, and list.component.ts
-  // to indicate which navbar item is highlighted through the @Input decorator in those files
-  public active_menu = "List";
 
   ngOnInit() {
     console.info('app.component.ts initialized');
@@ -54,7 +51,10 @@ export class AppComponent implements OnInit {
     var zzz = this.driverService.driverArray.length;
 
     console.log(`${msg} I now have ${zzz} drivers`);
-    this.active_menu = next_active_menu;
+
+    // to change the highlighted item on the nav bar...
+    this.driverService.active_menu = next_active_menu;
 
   }
+
 }
