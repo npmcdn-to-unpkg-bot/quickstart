@@ -87,7 +87,7 @@ if (isset($_POST['drivername'])) {
 
  cd \wamp\www\ng_demo\app\add
 
- C:\wamp\www\ng2_demo\app\add>curl -X POST -F 'drivername=unique' -F 'password=secret' localhost/app/add/add_endpoint.php
+ C:\wamp\www\ng2_demo\app\add>curl -X POST -F 'drivername=unique' -F 'password=secret' localhost/app/services/add_endpoint.php
  */
 
 

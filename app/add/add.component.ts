@@ -81,11 +81,12 @@ export class AddComponent implements OnInit{
   }
 
   slowErase () {
-    //window.setTimeout(this.eraseMsg, 2000);
+    window.setTimeout(this.eraseMsg, 2000);
   }
 
   /*
-    add_driver() is the event handler for clicking the add button. It calls the add service.
+    add_driver() is the event handler for clicking the add button. It calls
+   add_driver_to_driverArray() and add_driver_to_database() in driver.service.ts service.
    */
   add_driver(driver:Driver) {
     this.message.success = '';

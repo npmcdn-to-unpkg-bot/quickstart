@@ -27,7 +27,22 @@ export class DeleteComponent implements OnInit {
 
     selected_rows = this.driverService.find_selected();
 
-    this.message = this.driverService.delete_driver_API();
+    this.driverService.delete_selected_driver_from_database()
+        .subscribe(
+            driver  => {
+              //**** must delete driver from driver_array, so the list view will reflect this delete ***
+              this.driverService.delete_selected_driver_from_driverArray();
+
+              this.message.success = 'Driver deleted';
+            },
+            error => {
+              if (error.status == '404') {
+                this.message.error = 'Driver not found';
+              } else {
+                this.message.error = 'Unknown error';
+              }
+            }
+        );
   }
 
 }
