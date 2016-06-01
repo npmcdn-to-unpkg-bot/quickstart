@@ -46,7 +46,8 @@ export class ModifyComponent implements OnInit {
 
   my_row = {
     total_selected: 0,
-    last_selected_index: 0
+    last_selected_index: 0,
+    drivername: ''
   };
 
   ngOnInit (){

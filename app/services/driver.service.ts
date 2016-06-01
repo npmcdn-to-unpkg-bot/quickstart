@@ -240,7 +240,8 @@ export class DriverService {
 
    returns an object = {
      total_selected: total_selected,
-     last_selected_index: last_selected_index
+     last_selected_index: last_selected_index,
+     drivername: ''
    }
    */
 
@@ -248,13 +249,15 @@ export class DriverService {
     var len = this.driverArray.length;
     var my_rows = {
       total_selected: 0,
-      last_selected_index: 0
+      last_selected_index: 0,
+      drivername: ''
     };
 
     for (let i = 0; i < len; i++) {
       if (this.driverArray[i].selected == true) {
         my_rows.total_selected++;
         my_rows.last_selected_index = i;
+        my_rows.drivername = this.driverArray[i].drivername
       }
     }
 

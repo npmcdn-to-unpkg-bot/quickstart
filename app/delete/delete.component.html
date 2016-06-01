@@ -8,6 +8,10 @@
         <span *ngIf="message.error" class="col-md-offset-4 alert alert-danger">{{message.error}}</span>
 
         <span *ngIf="message.success" class="col-md-offset-4 alert alert-success">{{message.success}}</span>
+
+        <span *ngIf="message.success" class="col-md-offset-1">
+          <button class="btn" (click)="clearTimeout()"><strong>Undo</strong></button>
+        </span>
       </p>
     </div>
   </div>
