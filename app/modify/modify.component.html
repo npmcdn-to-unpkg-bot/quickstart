@@ -17,20 +17,11 @@
             <input id="driver.password" [(ngModel)]="driver.password" class="form-control"
                    type="text" ngControl="password" required>
 
-            <label class="control-label" for="driver.ability">
-              Ability
-            </label>
-            <div id="driver.ability" class="dropdown">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                Select<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Scooter</a></li>
-                <li><a href="#">Motorcycle</a></li>
-                <li><a href="#">Automatic transmission</a></li>
-                <li><a href="#">Manual transmission</a></li>
-                <li><a href="#">Commercial Truck</a></li>
-              </ul>
-            </div>
+            <label class="control-label" for="driver_ability">Driving Ability</label>
+            <select id="driver_ability" class="form-control" required [(ngModel)]="driver.ability">
+              <option *ngFor="let ab of driving_ability_list" [value]="ab">{{ab}}</option>
+            </select>
+
             <label class="control-label" for="driver.firstname">
               First Name
             </label>
@@ -92,3 +83,10 @@
       </div>
     </form>
   </div>
+  <div class="footer navbar-fixed-bottom">
+    <footer>
+      <p class="row text-center">This MVP is brought to you by none other than
+        Tony Ferlazzo, Web Developer Extraordinaire, June 2016</p>
+    </footer>
+  </div>
+

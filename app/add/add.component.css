@@ -5,15 +5,7 @@ body, input[text], button {
   color: #888;
   font-family: Cambria, Georgia;
 }
-input[id^='driver'], select[id^='driver'] {
-  width: 100%;
-}
-select[id^='driver'] {
-  height: 2.5em;
-}
-.btn_row {
-  margin-top: 2.8rem;
-}
+
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
@@ -54,5 +46,5 @@ button:disabled {
 }
 
 #driver_ability .dropdown-menu {
-  width:100%;
+  width: 100%;
 }

@@ -18,7 +18,7 @@ if (isset($_POST['drivername'])) {
 
 
   // list all the $_POST variables that were passed in from the caller
-  $post_list = "<p>".__LINE__." This is the \$_POST list decoded</p>";
+  $post_list = "<p>".__LINE__." This is the \$_POST variable list decoded</p>";
 
   foreach($_POST as $key => $val) {
     $post_list .= $key . "=".urldecode($val) . "<br>";
@@ -26,17 +26,17 @@ if (isset($_POST['drivername'])) {
   //print("$post_list");
   //var_dump($_POST['drivername']);
 
-  $password    = isset($_POST['password'])    ? $_POST['password']  : '';
-  $ability    = isset($_POST['ability'])    ? $_POST['ability']    : '';
-  $firstname  = isset($_POST['firstname'])  ? $_POST['firstname'] : '';
-  $lastname    = isset($_POST['lastname'])    ? $_POST['lastname']  : '';
-  $email      = isset($_POST['email'])      ? $_POST['email']      : '';
-  $address    = isset($_POST['address'])    ? $_POST['address']    : '';
-  $city        = isset($_POST['city'])        ? $_POST['city']      : '';
-  $ability    = isset($_POST['ability'])    ? $_POST['ability']    : '';
-  $state      = isset($_POST['state'])      ? $_POST['state']      : '';
-  $zip        = isset($_POST['zip'])        ? $_POST['zip']        : '';
-  $phone      = isset($_POST['phone'])      ? $_POST['phone']      : '';
+  $password    = isset($_POST['password'])   ? $_POST['password']   : '';
+  $ability     = isset($_POST['ability'])    ? $_POST['ability']    : '';
+  $firstname   = isset($_POST['firstname'])  ? $_POST['firstname']  : '';
+  $lastname    = isset($_POST['lastname'])   ? $_POST['lastname']   : '';
+  $email       = isset($_POST['email'])      ? $_POST['email']      : '';
+  $address     = isset($_POST['address'])    ? $_POST['address']    : '';
+  $city        = isset($_POST['city'])       ? $_POST['city']       : '';
+  $ability     = isset($_POST['ability'])    ? $_POST['ability']    : '';
+  $state       = isset($_POST['state'])      ? $_POST['state']      : '';
+  $zip         = isset($_POST['zip'])        ? $_POST['zip']        : '';
+  $phone       = isset($_POST['phone'])      ? $_POST['phone']      : '';
 } else {
 
   // Try this: When used in conjunction with a REST call it is proper to
@@ -57,16 +57,16 @@ if (isset($_POST['drivername'])) {
     //var_dump($decoded_json);
     if ($decoded_json) {
       $drivername = $decoded_json->{'drivername'};
-      $password = $decoded_json->{'password'};
-      $ability = $decoded_json->{'ability'};
-      $firstname = $decoded_json->{'firstname'};
-      $lastname = $decoded_json->{'lastname'};
-      $email = $decoded_json->{'email'};
-      $address = $decoded_json->{'address'};
-      $city = $decoded_json->{'city'};
-      $state = $decoded_json->{'state'};
-      $zip = $decoded_json->{'zip'};
-      $phone = $decoded_json->{'phone'};
+      $password   = $decoded_json->{'password'};
+      $ability    = $decoded_json->{'ability'};
+      $firstname  = $decoded_json->{'firstname'};
+      $lastname   = $decoded_json->{'lastname'};
+      $email      = $decoded_json->{'email'};
+      $address    = $decoded_json->{'address'};
+      $city       = $decoded_json->{'city'};
+      $state      = $decoded_json->{'state'};
+      $zip        = $decoded_json->{'zip'};
+      $phone      = $decoded_json->{'phone'};
 
       //print("<p>line ".__LINE__." from json_decode() \$drivername $drivername</p>");
       //print("<p>line ".__LINE__." from json_decode() \$password    $password</p>");
@@ -94,7 +94,7 @@ if (isset($_POST['drivername'])) {
 
 
 if (isset($drivername) == false) {
-  http_response_code(403);
+  http_response_code(404);
   exit("Exiting add_endpoint.php because the drivername was not received.");
 }
 
@@ -113,7 +113,7 @@ if (isset($drivername) == false) {
  */
 class MyDB extends SQLite3 {
   function __construct() {
-    $this->open('../driver.db');
+    $this->open('./driver.db');
   }
 }
 
@@ -141,7 +141,7 @@ function verifyDatabaseIsOpen($db){
  * Here we create a SQL INSERT statement from the data received when this script began.
  * Next, we try to run it against the open database.
  */
-function addNewDriver($db, $drivername, $password, $ability,
+function updateDriver($db, $drivername, $password, $ability,
                       $firstname, $lastname, $email, $address, $city, $state, $zip, $phone) {
   // first we must urldecode what was urlencoded
   $drivername = urldecode($drivername);
@@ -157,20 +157,20 @@ function addNewDriver($db, $drivername, $password, $ability,
   $phone = urldecode($phone);
 
 
-  $sql  = "INSERT INTO DRIVER (DRIVERNAME,PASSWORD,ABILITY,FIRSTNAME,LASTNAME,EMAIL,ADDRESS,CITY,STATE,ZIP,PHONE)";
-  $sql .= "VALUES ('";
-  $sql .= $drivername . "', '";
-  $sql .= $password . "', '";
-  $sql .= $ability . "', '";
-  $sql .= $firstname . "', '";
-  $sql .= $lastname . "', '";
-  $sql .= $email . "', '";
-  $sql .= $address . "', '";
-  $sql .= $city . "', '";
-  $sql .= $state . "', '";
-  $sql .= $zip . "', '";
-  $sql .= $phone . "')";
-  //print("<p>line ".__LINE__." \$sql statement:<br>$sql</p>");
+  $sql  = "UPDATE DRIVER SET";
+  $sql .= " DRIVERNAME = '" . $drivername . "',";
+  $sql .= " PASSWORD = '" . $password . "',";
+  $sql .= " ABILITY = '" . $ability . "',";
+  $sql .= " FIRSTNAME = '" . $firstname . "',";
+  $sql .= " LASTNAME = '" . $lastname . "',";
+  $sql .= " EMAIL = '" . $email . "',";
+  $sql .= " ADDRESS  = '" . $address . "',";
+  $sql .= " CITY = '" . $city . "',";
+  $sql .= " STATE = '" . $state . "',";
+  $sql .= " ZIP = '" . $zip . "',";
+  $sql .= " PHONE = '" . $phone . "'";
+  $sql .= " WHERE DRIVERNAME = '$drivername'";
+   //print("<p>line ".__LINE__." \$sql statement:<br>$sql</p>");
 
   $ret = $db->exec($sql);
   if(!$ret){
@@ -181,7 +181,7 @@ function addNewDriver($db, $drivername, $password, $ability,
     }
   } else {
     //print("<p>A row was successfully added to the 'driver' table</p>");
-    $ret = "added";
+    $ret = "updated";
   }
 
   return($ret);
@@ -189,7 +189,7 @@ function addNewDriver($db, $drivername, $password, $ability,
 
 verifyDatabaseIsOpen($db);
 
-$ret = addNewDriver($db, urlencode($drivername), urlencode($password), urlencode($ability),
+$ret = updateDriver($db, urlencode($drivername), urlencode($password), urlencode($ability),
   urlencode($firstname), urlencode($lastname), urlencode($email), urlencode($address),
   urlencode($city), urlencode($state), urlencode($zip), urlencode($phone));
 
@@ -197,15 +197,15 @@ $ret = addNewDriver($db, urlencode($drivername), urlencode($password), urlencode
 $db->close();
 
 // include a Status Code in the http reply header
-//print("<p>SQLite ADD returned message: $ret</p>");
+//print("<p>SQLite UPDATE returned message: $ret</p>");
 
 
 // Note that if any of the debug messages are uncommented and print then the http_response_code doesn't work
-if ($ret == "added") {
+if ($ret == "updated") {
   http_response_code(200);
   exit($ret);
 } else {
-  http_response_code(403);
+  http_response_code(404);
   exit($ret);
 }
 

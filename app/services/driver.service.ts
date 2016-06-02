@@ -4,6 +4,7 @@ import {Observable}                from 'rxjs/Observable';
 import {RequestOptions}            from '@angular/http';
 import { Driver }                  from '../driver';
 import { MOCK_DRIVERS }            from './mock-drivers';
+import { Router }                  from '@angular/router';
 
 
 /*
@@ -33,8 +34,8 @@ import { MOCK_DRIVERS }            from './mock-drivers';
     delete_selected_driver_from_driverArray()
     delete_selected_driver_from_database()
 
-    *modify_selected_driver_in_driverArray()
-    *modify_selected_driver_in_database()
+    modify_selected_driver_in_driverArray()
+    modify_selected_driver_in_database()
 
 */
 
@@ -45,7 +46,8 @@ import { MOCK_DRIVERS }            from './mock-drivers';
 
 @Injectable()
 export class DriverService {
-  constructor(private http:Http) {
+  constructor(private http:Http,
+              private router: Router) {
   }
 
   /*
@@ -257,7 +259,7 @@ export class DriverService {
       if (this.driverArray[i].selected == true) {
         my_rows.total_selected++;
         my_rows.last_selected_index = i;
-        my_rows.drivername = this.driverArray[i].drivername
+        my_rows.drivername = this.driverArray[i].drivername;
       }
     }
 
@@ -366,7 +368,7 @@ export class DriverService {
 
    *************************** */
   look_for_selected_drivers():string {
-    var len = this.driverArray.length;
+    var len =this.driverArray.length;
 
     for (let i = 0; i < len; i++) {
       if (this.driverArray[i].selected == true) {
@@ -383,23 +385,33 @@ export class DriverService {
    and modifies the matching driver that are selected.
 
    */
-  modify_selected_driver_in_database(i:number):Observable<Driver> {
-    var driver_json_input = { drivername:'' };
-    var stringified_json:string;
+  modify_selected_driver_in_database(driver:Driver):Observable<Driver> {
+    var driver_json_input = {
+      "selected": driver.selected,
+      "drivername": driver.drivername,
+      "password": driver.password,
+      "ability": driver.ability,
+      "firstname": driver.firstname,
+      "lastname": driver.lastname,
+      "email": driver.email,
+      "address": driver.address,
+      "city": driver.city,
+      "state": driver.state,
+      "zip": driver.zip,
+      "phone": driver.phone,
+    };
+
     var headers = new Headers({'Content-Type': 'application/json'});
     var options = new RequestOptions({headers: headers});
     var modify_url = "http://" + location.host + "/app/services/modify_endpoint.php";
 
-    // Modify the driverArray member with selected == true from the driver database.
+    var stringified_json_input = JSON.stringify(driver_json_input);
 
-    driver_json_input.drivername = this.look_for_selected_drivers();
-    stringified_json = JSON.stringify(driver_json_input);
+    console.log("modify_selected_driver_in_database(driver) found selected row: the driver '" +
+        driver_json_input.drivername + "', POST to modify_url " + modify_url +
+        " with stringified_json_input '" + stringified_json_input + "'");
 
-    console.log("modify_selected_driver_in_database(" + i + ") found selected row: the driver '" +
-        driver_json_input.drivername + "', POST to modify_url " + modify_url + " with stringified_json '" +
-        stringified_json + "'");
-
-    return this.http.post(modify_url, stringified_json, options)
+    return this.http.post(modify_url, stringified_json_input, options)
         .map(this.extractData_for_modify)
         .catch(this.handleError_for_modify);
   }
@@ -416,39 +428,36 @@ export class DriverService {
     // In a real world app, we might send the error to remote logging infrastructure
     let errMsg = error || 'Server error';
 
-    console.log("handleError_for_delete() " + errMsg); // log to console instead
+    console.log("handleError_for_modify() " + errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
 
   /*
 
-   modify_selected_driver_in_driverArray(i) Looks at the existing driverService.driverArray and update
+   modify_selected_driver_in_driverArray(driver) Looks at the existing driverService.driverArray and update
    the array member that is selected.
 
    */
 
-  modify_selected_driver_in_driverArray(i:number):Driver {
-    if (this.driverArray[i].selected == true) {
-      console.log("modify_selected_driver_in_driverArray(" + i + ") found selected row: drivername '" +
-          this.driverArray[i].drivername + "' at index " + i);
+  modify_selected_driver_in_driverArray(driver:Driver) {
+    for (let i = 0; i < this.driverArray.length; i++) {
+      if (this.driverArray[i].selected == true) {
+        console.log("modify_selected_driver_in_driverArray[" + i + "] updating selected row with drivername '" +
+            driver.drivername + "'");
 
-      return {
-        "selected": this.driverArray[i].selected,
-        "drivername": this.driverArray[i].drivername,
-        "password": this.driverArray[i].password,
-        "ability": this.driverArray[i].ability,
-        "firstname": this.driverArray[i].firstname,
-        "lastname": this.driverArray[i].lastname,
-        "email": this.driverArray[i].email,
-        "address": this.driverArray[i].address,
-        "city": this.driverArray[i].city,
-        "state": this.driverArray[i].state,
-        "zip": this.driverArray[i].zip,
-        "phone": this.driverArray[i].phone
+        this.driverArray[i].selected    = driver.selected;
+        this.driverArray[i].drivername  = driver.drivername;
+        this.driverArray[i].password    = driver.password;
+        this.driverArray[i].ability     = driver.ability;
+        this.driverArray[i].firstname   = driver.firstname;
+        this.driverArray[i].lastname    = driver.lastname;
+        this.driverArray[i].email       = driver.email;
+        this.driverArray[i].address     = driver.address;
+        this.driverArray[i].city        = driver.city;
+        this.driverArray[i].state       = driver.state;
+        this.driverArray[i].zip         = driver.zip;
+        this.driverArray[i].phone       = driver.phone;
       }
     }
-
-    alert("First select a Driver to modify");
   }
-
 }

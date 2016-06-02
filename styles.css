@@ -18,6 +18,15 @@ body, input[text], button {
   color: #888;
   font-family: Cambria, Georgia;
 }
+input[id^='driver'], select[id^='driver'] {
+  width: 100%;
+}
+select[id^='driver'] {
+  height: 2.5em;
+}
+.btn_row {
+  margin-top: 2.8rem;
+}
 a {
   cursor: pointer;
 }
@@ -143,3 +152,15 @@ nav a.router-link-active {
 }
 
 
+.footer {
+  color: #fff;
+  text-align: center;
+  background: #FE8300;
+  padding-top: 1em;
+}
+
+
+
+form {
+    margin-bottom: 3em;
+}

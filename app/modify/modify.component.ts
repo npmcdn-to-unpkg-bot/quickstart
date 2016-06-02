@@ -29,6 +29,7 @@ export class ModifyComponent implements OnInit {
   driving_ability_list = ['Bicycle', 'Scooter', 'Motorcycle', 'Car with Automatic Transmission',
     'Car with Manual Transmission', 'Commercial Truck'];
 
+  // driver model
   driver = {
     selected: false,
     drivername: 'new driver',
@@ -51,7 +52,6 @@ export class ModifyComponent implements OnInit {
   };
 
   ngOnInit (){
-
     // find selected rows
     this.my_row = this.driverService.find_selected();
 
@@ -61,26 +61,21 @@ export class ModifyComponent implements OnInit {
       // go back to list view
       this.router.navigate(['/']);
       this.driverService.active_menu = "List";
-
     } else {
-
-      this.driverService.modify_selected_driver_in_database(this.my_row.last_selected_index)
-          .subscribe(
-              driver => {
-                //**** must delete driver from driver_array, so the list view will reflect this delete ***
-                this.driver =
-                    this.driverService.modify_selected_driver_in_driverArray(this.my_row.last_selected_index);
-
-                this.message.success = 'Driver found';
-              },
-              error => {
-                if (error.status == '404') {
-                  this.message.error = 'Driver not found';
-                } else {
-                  this.message.error = 'Unknown error';
-                }
-              }
-          );
+      // populate this modify page form field model with existing driverArray data
+      let i = this.my_row.last_selected_index;
+      this.driver.selected    = this.driverService.driverArray[i].selected;
+      this.driver.drivername  = this.driverService.driverArray[i].drivername;
+      this.driver.password    = this.driverService.driverArray[i].password;
+      this.driver.ability     = this.driverService.driverArray[i].ability;
+      this.driver.firstname   = this.driverService.driverArray[i].firstname;
+      this.driver.lastname    = this.driverService.driverArray[i].lastname;
+      this.driver.email       = this.driverService.driverArray[i].email;
+      this.driver.address     = this.driverService.driverArray[i].address;
+      this.driver.city        = this.driverService.driverArray[i].city;
+      this.driver.state       = this.driverService.driverArray[i].state;
+      this.driver.zip         = this.driverService.driverArray[i].zip;
+      this.driver.phone       = this.driverService.driverArray[i].phone;
     }
   }
 
@@ -89,9 +84,18 @@ export class ModifyComponent implements OnInit {
       modify_driver() is the click handler for the Modify button on the modify page.
    */
   modify_driver(driver:Driver){
-    alert('Update database for Driver ' + driver.drivername + ' here');
-
-    // this.driver has updated values
+    this.driverService.modify_selected_driver_in_driverArray(driver);
+    this.driverService.modify_selected_driver_in_database(driver).subscribe(
+      driver => {
+        this.message.success = 'Driver ' + this.driver.drivername + ' updated';
+      },
+      error => {
+        if (error.status == '404') {
+          this.message.error = 'Driver not found';
+        } else {
+          this.message.error = 'Unknown error';
+        }
+      }
+    );
   }
-
 }
