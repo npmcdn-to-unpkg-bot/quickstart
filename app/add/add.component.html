@@ -41,8 +41,9 @@
                    type="text" ngControl="city" required>
 
             <label class="control-label" for="driver_state">State</label>
-            <input id="driver_state" [(ngModel)]="driver.state" class="form-control"
-                   type="text" ngControl="state" required>
+            <select id="driver_state" class="form-control" required [(ngModel)]="driver.state">
+              <option *ngFor="let ab of state_abbreviation_list" [value]="ab">{{ab}}</option>
+            </select>
 
             <label class="control-label" for="driver_zip">Zipcode</label>
             <input id="driver_zip" [(ngModel)]="driver.zip" class="form-control"

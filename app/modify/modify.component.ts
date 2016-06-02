@@ -29,6 +29,66 @@ export class ModifyComponent implements OnInit {
   driving_ability_list = ['Bicycle', 'Scooter', 'Motorcycle', 'Car with Automatic Transmission',
     'Car with Manual Transmission', 'Commercial Truck'];
 
+  // for dropdown lists
+  driving_ability_list = ['Bicycle', 'Scooter', 'Motorcycle', 'Car (Automatic Transmission)',
+    'Car (Manual Transmission)', 'Commercial Truck'];
+
+  state_abbreviation_list = [
+    'Alabama',
+    'Alaska',
+    'Arizona',
+    'Arkansas',
+    'California',
+    'Colorado',
+    'Connecticut',
+    'Delaware',
+    'District of Columbia',
+    'Florida',
+    'Georgia',
+    'Hawaii',
+    'Idaho',
+    'Illinois',
+    'Indiana',
+    'Iowa',
+    'Kansas',
+    'Kentucky',
+    'Louisiana',
+    'Maine',
+    'Maryland',
+    'Massachusetts',
+    'Michigan',
+    'Minnesota',
+    'Mississippi',
+    'Missouri',
+    'Montana',
+    'Nebraska',
+    'Nevada',
+    'New Hampshire',
+    'New Jersey',
+    'New Mexico',
+    'New York',
+    'North Carolina',
+    'North Dakota',
+    'Ohio',
+    'Oklahoma',
+    'Oregon',
+    'Pennsylvania',
+    'Puerto Rico',
+    'Rhode Island',
+    'South Carolina',
+    'South Dakota',
+    'Tennessee',
+    'Texas',
+    'Utah',
+    'Vermont',
+    'Virginia',
+    '(U.S.) Virgin Islands',
+    'Washington',
+    'West Virginia',
+    'Wisconsin',
+    'Wyoming'
+  ];
+
   // driver model
   driver = {
     selected: false,
@@ -88,6 +148,10 @@ export class ModifyComponent implements OnInit {
     this.driverService.modify_selected_driver_in_database(driver).subscribe(
       driver => {
         this.message.success = 'Driver ' + this.driver.drivername + ' updated';
+
+        // go back to list view
+        this.router.navigate(['/']);
+        this.driverService.active_menu = "List";
       },
       error => {
         if (error.status == '404') {

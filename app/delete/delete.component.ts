@@ -34,7 +34,7 @@ export class DeleteComponent implements OnInit {
 
   timerId:number;
 
-  // timerId gives user 7 seconds to reconsider deleting a driver
+  // timerId gives user 4 seconds to reconsider deleting a driver
   clearTimeout() {
     window.clearTimeout(this.timerId);
     this.router.navigate(['/']);

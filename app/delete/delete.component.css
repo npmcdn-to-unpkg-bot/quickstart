@@ -54,3 +54,14 @@ button:disabled {
   text-align: left;
   border: 1px solid #ccc;
 }
+
+span {
+  font-size: 2em;
+}
+span .btn {
+  font-size: 1em;
+  color: #fff;
+  background-color: #FF5200;
+  padding: 0.2em;
+  margin-left: 1em;
+}
