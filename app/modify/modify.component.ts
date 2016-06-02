@@ -139,7 +139,12 @@ export class ModifyComponent implements OnInit {
     }
   }
 
-
+  cancel_modify() {
+    // go back to list view
+    this.router.navigate(['/']);
+    this.driverService.active_menu = "List";
+  }
+  
   /*
       modify_driver() is the click handler for the Modify button on the modify page.
    */

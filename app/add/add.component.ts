@@ -18,7 +18,8 @@ import { AddService }         from '../services/add.service';
 export class AddComponent implements OnInit{
   constructor (
     private _addService: AddService,
-    private driverService: DriverService
+    private router: Router,
+  private driverService: DriverService
   ) { }
 
   // for dropdown lists
@@ -80,7 +81,7 @@ export class AddComponent implements OnInit{
     'Wisconsin',
     'Wyoming'
   ];
-  
+
   driver = {
     selected: false,
     drivername: 'new driver',
@@ -135,6 +136,12 @@ export class AddComponent implements OnInit{
     this.message.error = '';
     this.driver = this.clear_driver(this.driver);
 
+  }
+
+  cancel_add() {
+    // go back to list view
+    this.router.navigate(['/']);
+    this.driverService.active_menu = "List";
   }
 
   slowErase () {
