@@ -31,7 +31,7 @@ import { Router }                  from '@angular/router';
     add_driver_to_driverArray(new_driver)
     add_driver_to_database(driver)
 
-    delete_selected_driver_from_driverArray()
+    delete_selected_driver_from_driverArray(index)
     delete_selected_driver_from_database()
 
     modify_selected_driver_in_driverArray()
@@ -70,11 +70,6 @@ export class DriverService {
   errorMessage = '';
   saved_drivername = "";
   last_row_selected = -1;
-
-  private message = {
-    success: '',
-    error: ''
-  };
 
   fillDriverArray():void {
     console.info('driver.service.ts in fillDriverArray()');
@@ -186,84 +181,49 @@ export class DriverService {
   }
 
 
+
+
   /*
 
-   delete_selected_driver_from_driverArray() Looks at the existing driverService.driverArray and removes
-   array members that are selected.
+   delete_selected_driver_from_driverArray(index) Looks at the existing driverService.driverArray and removes
+   array member that is selected == true.
 
    */
 
-  delete_selected_driver_from_driverArray() {
-    var len = this.driverArray.length;
-    var updated_driver_array = new Array<Driver>();
-    var rows_highlighted = 0;
+  delete_selected_driver_from_driverArray(index:number):string {
+    var selected_drivername = '';
 
-    // Count the number of driverArray members with selected n== true property.
-    // Copy all driverArray members with selected == false to the updated_driver_array.
-    for (let i = 0; i < len; i++) {
-      if (this.driverArray[i].selected == true) {
-        console.log("delete_selected_driver_from_driverArray() found selected row: the driver '" +
-            this.driverArray[i].drivername + "' at index " + i);
-        rows_highlighted++;
+    if (this.driverArray[index].selected == true) {
+      selected_drivername = this.driverArray[index].drivername;
+      console.log("delete_selected_driver_from_driverArray() found selected row: the driver '" +
+          selected_drivername + "' at index " + index);
 
-      } else {
-        updated_driver_array.push({
-          "selected": this.driverArray[i].selected,
-          "drivername": this.driverArray[i].drivername,
-          "password": this.driverArray[i].password,
-          "ability": this.driverArray[i].ability,
-          "firstname": this.driverArray[i].firstname,
-          "lastname": this.driverArray[i].lastname,
-          "email": this.driverArray[i].email,
-          "address": this.driverArray[i].address,
-          "city": this.driverArray[i].city,
-          "state": this.driverArray[i].state,
-          "zip": this.driverArray[i].zip,
-          "phone": this.driverArray[i].phone
-        });
-      }
+      // use splice to remove the entry from the driver_array
+      this.driverArray.splice( index, 1 );
     }
-
-    if (rows_highlighted > 0) {
-      this.driverArray = updated_driver_array;
-      this.message.success = "Deleted " +
-          rows_highlighted + " driver" + (rows_highlighted > 1 ? "s" : "") + " from Driver List";
-      this.message.error = '';
-    } else {
-      this.message.error = "Select a driver to delete by clicking/highlighting its row in the list";
-      this.message.success = '';
-    }
-    return this.message;
+    return selected_drivername;
   }
 
   /*
 
-   find_selected () is run OnInit for the delete view (in delete.component.ts)
+   find_first_selected_row () is run OnInit for the delete view (in delete.component.ts)
 
-   returns an object = {
-     total_selected: total_selected,
-     last_selected_index: last_selected_index,
-     drivername: ''
-   }
+   returns index: first_selected_index
+
    */
 
-  find_selected():any {
+  find_first_selected_row():number {
     var len = this.driverArray.length;
-    var my_rows = {
-      total_selected: 0,
-      last_selected_index: 0,
-      drivername: ''
-    };
+    var index = -1;
 
     for (let i = 0; i < len; i++) {
       if (this.driverArray[i].selected == true) {
-        my_rows.total_selected++;
-        my_rows.last_selected_index = i;
-        my_rows.drivername = this.driverArray[i].drivername;
+        index = i;
+        break;
       }
     }
 
-    return my_rows;
+    return index;
   }
 
 
@@ -335,20 +295,19 @@ export class DriverService {
 
   /*
 
-   delete_selected_driver_from_database() Looks at the existing driverService.driverArray
+   delete_selected_driver_from_database(drivername) Looks at the existing driverService.driverArray
    and removes matching drivers that are selected.
 
    */
-  delete_selected_driver_from_database():Observable<Driver> {
-    var driver_json_input = { drivername:'' };
+  delete_selected_driver_from_database(drivername:string):Observable<Driver> {
+    var driver_json_input = { 'drivername': drivername };
     var stringified_json:string;
     var headers = new Headers({'Content-Type': 'application/json'});
     var options = new RequestOptions({headers: headers});
     var delete_url = "http://" + location.host + "/app/services/delete_endpoint.php";
 
-    // Delete all driverArray members with selected == true from the driver database.
+    // Delete a driverArray member with selected == true from the driver database.
 
-    driver_json_input.drivername = this.look_for_selected_drivers();
     stringified_json = JSON.stringify(driver_json_input);
 
     console.log("delete_selected_driver_from_database() found selected row: the driver '" +
@@ -358,23 +317,6 @@ export class DriverService {
     return this.http.post(delete_url, stringified_json, options)
         .map(this.extractData_for_delete)
         .catch(this.handleError_for_delete);
-  }
-
-
-  /* **************************
-
-   WARNING: this only deletes 1 driver
-   todo: delete all selected drivers
-
-   *************************** */
-  look_for_selected_drivers():string {
-    var len =this.driverArray.length;
-
-    for (let i = 0; i < len; i++) {
-      if (this.driverArray[i].selected == true) {
-        return this.driverArray[i].drivername;
-      }
-    }
   }
 
 

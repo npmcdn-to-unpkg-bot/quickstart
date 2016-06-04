@@ -1,11 +1,9 @@
 import { Component, OnInit }  from '@angular/core';
 import { FORM_DIRECTIVES ,
     FORM_PROVIDERS }          from '@angular/common';
-import { HTTP_PROVIDERS }     from '@angular/http';
 import { Router }             from '@angular/router';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
-import { SelectService }      from '../services/select.service';
 
 @Component({
   selector: 'my-modify',
@@ -25,9 +23,6 @@ export class ModifyComponent implements OnInit {
     success: '',
     error: ''
   };
-
-  driving_ability_list = ['Bicycle', 'Scooter', 'Motorcycle', 'Car with Automatic Transmission',
-    'Car with Manual Transmission', 'Commercial Truck'];
 
   // for dropdown lists
   driving_ability_list = ['Bicycle', 'Scooter', 'Motorcycle', 'Car (Automatic Transmission)',
@@ -105,17 +100,14 @@ export class ModifyComponent implements OnInit {
     phone: ''
   };
 
-  my_row = {
-    total_selected: 0,
-    last_selected_index: 0,
-    drivername: ''
-  };
+
 
   ngOnInit (){
+    var selected_index:number;
     // find selected rows
-    this.my_row = this.driverService.find_selected();
+    selected_index = this.driverService.find_first_selected_row();
 
-    if (this.my_row.total_selected != 1) {
+    if (selected_index < -1) {
       alert("Select one row to modify");
 
       // go back to list view
@@ -123,7 +115,7 @@ export class ModifyComponent implements OnInit {
       this.driverService.active_menu = "List";
     } else {
       // populate this modify page form field model with existing driverArray data
-      let i = this.my_row.last_selected_index;
+      let i = selected_index;
       this.driver.selected    = this.driverService.driverArray[i].selected;
       this.driver.drivername  = this.driverService.driverArray[i].drivername;
       this.driver.password    = this.driverService.driverArray[i].password;
@@ -144,7 +136,7 @@ export class ModifyComponent implements OnInit {
     this.router.navigate(['/']);
     this.driverService.active_menu = "List";
   }
-  
+
   /*
       modify_driver() is the click handler for the Modify button on the modify page.
    */

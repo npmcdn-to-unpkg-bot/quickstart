@@ -5,22 +5,25 @@ import { Router }             from '@angular/router';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
 import { SelectService }      from '../services/select.service';
-import { AddService }         from '../services/add.service';
 
 @Component({
   selector: 'my-add',
   templateUrl: 'app/add/add.component.html',
   styleUrls: ['app/add/add.component.css'],
-  providers: [ FORM_PROVIDERS, AddService, SelectService, Driver ],
+  providers: [ FORM_PROVIDERS, SelectService, Driver ],
   directives: [ FORM_DIRECTIVES ]
 })
 
 export class AddComponent implements OnInit{
   constructor (
-    private _addService: AddService,
     private router: Router,
   private driverService: DriverService
   ) { }
+
+  private message = {
+    success: '',
+    error: ''
+  };
 
   // for dropdown lists
   driving_ability_list = ['Bicycle', 'Scooter', 'Motorcycle', 'Car (Automatic Transmission)',
@@ -101,11 +104,6 @@ export class AddComponent implements OnInit{
 
   chosen_ability:string = 'Select One';
 
-  message = {
-    success: '',
-    error: ''
-  };
-
   submitted = false;
 
   clear_driver(driver:Driver) {
@@ -131,21 +129,10 @@ export class AddComponent implements OnInit{
     this.driver = this.clear_driver(this.driver);
   }
 
-  eraseMsg(){
-    this.message.success = '';
-    this.message.error = '';
-    this.driver = this.clear_driver(this.driver);
-
-  }
-
   cancel_add() {
     // go back to list view
     this.router.navigate(['/']);
     this.driverService.active_menu = "List";
-  }
-
-  slowErase () {
-    window.setTimeout(this.eraseMsg, 2000);
   }
 
   /*
@@ -160,13 +147,13 @@ export class AddComponent implements OnInit{
     this.driverService.add_driver_to_database(driver)
         .subscribe(
             driver  => {
+              this.message.success = 'Driver ' + this.driver.drivername + ' added';
               //**** must add new driver to end of driver_array, so the list view will reflect this new driver ***
               this.driverService.add_driver_to_driverArray(this.current_driver);
 
-              /* if here then record added, so now clear fields */
-              this.clear_driver(this.current_driver);
-              this.message.success = 'Driver Added';
-              this.slowErase();
+              // go back to list view
+              this.router.navigate(['/']);
+              this.driverService.active_menu = "List";
             },
             error => {
               if (error.status == '403') {
@@ -174,7 +161,6 @@ export class AddComponent implements OnInit{
               } else {
                 this.message.error = 'Unknown error';
               }
-              this.slowErase();
             }
         );
   }
@@ -185,6 +171,5 @@ export class AddComponent implements OnInit{
     e.preventDefault();
     this.chosen_ability = chosen;
     this.driver.ability = chosen;
-
   }
 }
