@@ -4,63 +4,68 @@
     </div>
     <form #f="ngForm">
       <div class="row">
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th>Driver</th><th>Password</th><th>Driving Ability</th>
-            <th>First Name</th><th>Last Name</th><th>Email</th><th>Address</th>
-            <th>City</th><th>State</th><th>Zip</th><th>Phone</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let driver of drivers; let i=index">
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.drivername}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                <!--{{driver.password}}--> ***********
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.ability}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.firstname}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.lastname}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.email}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.address}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.city}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.state}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.zip}}
-              </td>
-              <td [ngClass]="{selected_background:drivers[i].selected}"
-                (click)="clicked_row = i;row_selected(i)">
-                {{driver.phone}}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="panel panel-success">
+          <div class="panel-heading"></div>
+            <div class="panel-body panel-flex-table">
+              <table class="flex-table table table-striped table-hover flex-widths flex-table-aligned">
+                <thead>
+                <tr>
+                  <th>Driver</th><th>Password</th><th>Driving Ability</th>
+                  <th>First Name</th><th>Last Name</th><th>Email</th><th>Address</th>
+                  <th>City</th><th>State</th><th>Zip</th><th>Phone</th>
+                </tr>
+                </thead>
+                <tbody class="scroll">
+                  <tr *ngFor="let driver of drivers; let i=index">
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.drivername}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      <!--{{driver.password}}--> ***********
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.ability}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.firstname}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.lastname}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.email}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.address}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.city}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.state}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.zip}}
+                    </td>
+                    <td [ngClass]="{selected_background:drivers[i].selected}"
+                      (click)="clicked_row = i;row_selected(i)">
+                      {{driver.phone}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
       </div>
     </form>
   </div>

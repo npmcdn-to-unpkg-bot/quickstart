@@ -48,7 +48,7 @@ export class SelectService {
       throw new Error('Bad response status: ' +  response.status);
     }
 
-    console.log("deleteData response status code: "+ response.status);
+    console.error("deleteData response status code: "+ response.status);
     return [{ }];
   }
 
@@ -56,7 +56,7 @@ export class SelectService {
   private handleDeleteError (error: any) {
     // In a real world app, we might send the error to remote logging infrastructure
     var errMsg = error.message || 'Server error';
-    console.log(errMsg); // log to console instead
+    console.error(errMsg); // log to console instead
     alert ("select.service.ts handleError() .'" + errMsg + "'. Did not delete driver!");
     return Observable.throw(errMsg);
   }

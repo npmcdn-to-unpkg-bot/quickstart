@@ -131,8 +131,8 @@ export class DriverService {
     // In a real world app, we might send the error to remote logging infrastructure
     var errMsg = error || 'Server error';
 
-    console.log(errMsg); // log to console instead
-    alert("driver.service.ts handleErrorGET() '" + errMsg + "'. Did not receive driver list!");
+    console.error(errMsg); // log to console instead
+    //alert("driver.service.ts handleErrorGET() '" + errMsg + "'. Did not receive driver list!");
     return Observable.throw(errMsg);
   }
 
@@ -270,9 +270,9 @@ export class DriverService {
 
 
   private handleError_for_add(error:any) {
-    // In a real world app, we might send the error to remote logging infrastructure
+    // handle a duplicate drivername error
     let errMsg = error || 'Server error';
-    console.log(errMsg); // log to console instead
+    console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
 
@@ -289,7 +289,7 @@ export class DriverService {
     // In a real world app, we might send the error to remote logging infrastructure
     let errMsg = error || 'Server error';
 
-    console.log("handleError_for_delete() " + errMsg); // log to console instead
+    console.error("handleError_for_delete() " + errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
 
@@ -370,7 +370,7 @@ export class DriverService {
     // In a real world app, we might send the error to remote logging infrastructure
     let errMsg = error || 'Server error';
 
-    console.log("handleError_for_modify() " + errMsg); // log to console instead
+    console.error("handleError_for_modify() " + errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
 

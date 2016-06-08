@@ -51,7 +51,7 @@ export class ListService {
       throw new Error('Bad response status: ' +  response.status);
     }
 
-    console.log("deleteData response: "+ response);
+    console.error("deleteData response: "+ response);
     return [{ }];
   }
 
@@ -59,7 +59,7 @@ export class ListService {
   private handleDeleteError (error: any) {
     // In a real world app, we might send the error to remote logging infrastructure
     var errMsg = error.message || 'Server error';
-    console.log(errMsg); // log to console instead
+    console.error(errMsg); // log to console instead
     alert ("list.service.ts handleDeleteError() '" + errMsg + "'. Did not delete driver!");
     return Observable.throw(errMsg);
   }

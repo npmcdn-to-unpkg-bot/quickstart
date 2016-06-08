@@ -40,12 +40,71 @@ button:disabled {
 table {
   margin:0 auto;
 }
-td, th {
-  padding: 0 1em;
-}
 td:hover {
   cursor:pointer;
 }
 .selected_background {
   background-color: #D1E3E3 !important;
+}
+.container-fluid .panel-heading {
+  display: none;
+}
+.container-fluid .panel-body {
+  height: 380px;
+  padding: 0;
+}
+.container-fluid .panel-body.panel-regular-table {
+  overflow-y: auto;
+}
+.container-fluid .panel-body table.flex-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.container-fluid .panel-body table.flex-table thead,
+.container-fluid .panel-body table.flex-table tbody {
+  display: block;
+}
+.container-fluid .panel-body table.flex-table thead {
+  margin-right: 0;
+}
+.container-fluid .panel-body table.flex-table thead th {
+  border-bottom-width: 1px;
+}
+.container-fluid .panel-body table.flex-table tbody {
+  flex: 1;
+  overflow-y: scroll;
+}
+.container-fluid .panel-body table.flex-table tr {
+  width: 100%;
+  display: flex;
+}
+.container-fluid .panel-body table.flex-table tr th,
+.container-fluid .panel-body table.flex-table tr td {
+  display: block;
+  flex: 1;
+}
+
+
+.container-fluid .panel-body table.flex-widths.flex-table-aligned thead > tr {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.container-fluid .panel-body table.flex-widths tr td:nth-child(6),
+.container-fluid .panel-body table.flex-widths tr th:nth-child(6){
+  flex: 2;
+}
+.container-fluid .panel-body table.flex-widths tr td:nth-child(3),
+.container-fluid .panel-body table.flex-widths tr th:nth-child(3),
+.container-fluid .panel-body table.flex-widths tr td:nth-child(7),
+.container-fluid .panel-body table.flex-widths tr th:nth-child(7) {
+  flex: 2.5;
+}
+.container-fluid .panel-body table.flex-widths tr td:nth-child(1),
+.container-fluid .panel-body table.flex-widths tr th:nth-child(1),
+.container-fluid .panel-body table.flex-widths tr td:nth-child(2),
+.container-fluid .panel-body table.flex-widths tr th:nth-child(2),
+.container-fluid .panel-body table.flex-widths tr td:nth-child(10),
+.container-fluid .panel-body table.flex-widths tr th:nth-child(10) {
+  flex: 0.75;
 }

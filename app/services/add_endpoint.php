@@ -1,5 +1,5 @@
 <?php
-
+include('include.php');
 /*
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   print("This is a POST<br>");
@@ -177,7 +177,7 @@ function addNewDriver($db, $drivername, $password, $ability,
     $ret = $db->lastErrorMsg();
     //print("<p>ERROR: $ret</p>");
     if ($ret == "UNIQUE constraint failed: driver.DRIVERNAME") {
-      $ret = "duplicate drivername '" . $drivername . "'";
+      $ret = "Duplicate drivername '" . $drivername . "'";
     }
   } else {
     //print("<p>A row was successfully added to the 'driver' table</p>");
@@ -205,8 +205,13 @@ if ($ret == "added") {
   http_response_code(200);
   exit($ret);
 } else {
-  http_response_code(403);
-  exit($ret);
+  if (substr($ret, 0, 20) == "Duplicate drivername") {
+    http_response_code(409);
+    exit ($ret);
+  } else {
+    http_response_code(403);
+    exit($ret);
+  }
 }
 
 ?>
