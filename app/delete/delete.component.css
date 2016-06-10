@@ -16,20 +16,6 @@ select[id^='driver'] {
   margin-top: -4.2rem;
   padding-right: 3rem;
 }
-h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
-}
-h2, h3 {
-  color: #444;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: lighter;
-}
-a {
-  cursor: pointer;
-  cursor: hand;
-}
 button {
   font-family: Arial;
   background-color: #eee;
@@ -64,4 +50,26 @@ span .btn {
   background-color: #FF5200;
   padding: 0.2em;
   margin-left: 1em;
+}
+#my-alert {
+  width: 20%;
+  min-width: 36rem;
+  height: auto;
+  position: absolute;
+  top: calc(50% - 20%);
+  left: calc(50% - 18rem);
+  border:2px solid orangered;
+  border-radius: 4px;
+  background-color:#fff;
+}
+#my-alert p {
+  margin: 2rem;
+  font-size:1.5em
+}
+
+#my-alert p:last-child{
+  text-align: right;
+}
+.hide_alert {
+  display:none;
 }

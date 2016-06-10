@@ -27,33 +27,29 @@ export class DeleteComponent implements OnInit {
   timerId:number;
   // give user 'milliseconds_to_delay' to reconsider deleting a driver
   milliseconds_to_delay:number;
+  first_selected_row_index;
 
 
   ngOnInit() {
-    console.debug('inside delete.component.ts ngInit()');
+    // find first selected row
+    this.first_selected_row_index = this.driverService.find_first_row_to_delete();
+
+    console.debug('inside delete.component.ts initializing, first_selected_row_index: '
+          + this.first_selected_row_index);
     this.milliseconds_to_delay = 4000;
     console.debug("delay " + this.milliseconds_to_delay + " before a driver delete");
 
-    // find first selected row
-    var first_selected_row_index = this.driverService.find_first_selected_row();
-
-    console.debug('first_selected_index: ' + first_selected_row_index);
-    if (first_selected_row_index < 0) {
-      alert("Select one or more rows to delete");
-
-      // go back to list view
-      this.router.navigate(['/']);
-      this.driverService.active_menu = "List";
-    } else {
+    console.debug('first_selected_index: ' + this.first_selected_row_index);
+    if (this.first_selected_row_index > -1) {
       //at least one driver row is selected
       this.message.success = 'Deleted driver';
 
-      console.debug('found a selected row at index ' + first_selected_row_index);
+      console.debug('found a selected row at index ' + this.first_selected_row_index);
 
       // timerId gives user 4 seconds to reconsider deleting a driver.
       // If user does not press the 'Undo' button, delete_one_driver_from_database() will be run.
       this.timerId = TimerWrapper.setTimeout(() => {
-        this.delete_one_driver_from_database(first_selected_row_index)
+        this.delete_one_driver_from_database(this.first_selected_row_index)
       }, this.milliseconds_to_delay);
     }
   }
@@ -69,10 +65,6 @@ export class DeleteComponent implements OnInit {
     // delete driver from driver_array, so the list view will reflect the delete
     drivername_to_delete = this.driverService.delete_selected_driver_from_driverArray(first_selected_row_index);
 
-    //don't delay after the first driver in a series of drivers to be deleted has been deleted.
-    this.milliseconds_to_delay = 0;
-    console.debug("delay " + this.milliseconds_to_delay + " before next driver delete");
-
     console.debug('subscribing to Observable method of deleted drivername ' + drivername_to_delete);
 
     this.driverService.delete_selected_driver_from_database(drivername_to_delete)
@@ -85,13 +77,17 @@ export class DeleteComponent implements OnInit {
               TimerWrapper.clearTimeout(this.timerId);
 
               // check for another selected driver row...
-              next_selected_row_index = this.driverService.find_first_selected_row();
+              next_selected_row_index = this.driverService.find_first_row_to_delete();
+              //don't delay after the first driver in a series of drivers to be deleted has been deleted.
+              this.milliseconds_to_delay = 0;
+              console.debug("delay " + this.milliseconds_to_delay + " before next driver delete");
+
 
               if (next_selected_row_index > -1) {
                 this.timerId = TimerWrapper.setTimeout(() => {
                   // recursively call yourself until all selected driverArray rows have been deleted
                   this.delete_one_driver_from_database(next_selected_row_index)
-                }, 4000);
+                }, this.milliseconds_to_delay);
               }
 
               // go to list view

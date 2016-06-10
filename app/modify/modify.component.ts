@@ -2,6 +2,7 @@ import { Component, OnInit }  from '@angular/core';
 import { FORM_DIRECTIVES ,
     FORM_PROVIDERS }          from '@angular/common';
 import { Router }             from '@angular/router';
+import { NgClass }            from '@angular/common';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
 
@@ -10,7 +11,7 @@ import { DriverService }      from '../services/driver.service';
   templateUrl: 'app/modify/modify.component.html',
   styleUrls: ['app/modify/modify.component.css'],
   providers:  [  FORM_PROVIDERS, Driver ],
-  directives: [ FORM_DIRECTIVES ]
+  directives: [ FORM_DIRECTIVES, NgClass ]
 })
 
 export class ModifyComponent implements OnInit {
@@ -100,22 +101,16 @@ export class ModifyComponent implements OnInit {
     phone: ''
   };
 
-
+  selected_index:number;
 
   ngOnInit (){
-    var selected_index:number;
     // find selected rows
-    selected_index = this.driverService.find_first_selected_row();
+    this.selected_index = this.driverService.find_row_to_modify();
 
-    if (selected_index < 0) {
-      alert("Select one row to modify");
 
-      // go back to list view
-      this.router.navigate(['/']);
-      this.driverService.active_menu = "List";
-    } else {
+    if (this.selected_index > -1) {
       // populate this modify page form field model with existing driverArray data
-      let i = selected_index;
+      let i = this.selected_index;
       this.driver.selected    = this.driverService.driverArray[i].selected;
       this.driver.drivername  = this.driverService.driverArray[i].drivername;
       this.driver.password    = this.driverService.driverArray[i].password;

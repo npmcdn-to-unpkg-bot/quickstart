@@ -206,13 +206,13 @@ export class DriverService {
 
   /*
 
-   find_first_selected_row () is run OnInit for the delete view (in delete.component.ts)
+   find_first_row_to_delete () is run OnInit for the delete view (in delete.component.ts)
 
    returns index: first_selected_index
 
    */
 
-  find_first_selected_row():number {
+  find_first_row_to_delete():number {
     var len = this.driverArray.length;
     var index = -1;
 
@@ -225,6 +225,34 @@ export class DriverService {
 
     return index;
   }
+
+  /*
+
+   find_row_to_modify() is run OnInit for the modify view (in modify.component.ts)
+
+   returns index: selected_row_index
+
+   */
+
+  find_row_to_modify():number {
+    var len = this.driverArray.length;
+    var index = -1;
+    var selectedCount = 0;
+
+    for (let i = 0; i < len; i++) {
+      if (this.driverArray[i].selected == true) {
+        index = i;
+        selectedCount++;
+      }
+    }
+
+    if (selectedCount > 1) {
+      index = -1;
+    }
+    return index;
+  }
+
+
 
 
   add_driver_to_database(driver:Driver):Observable<Driver> {

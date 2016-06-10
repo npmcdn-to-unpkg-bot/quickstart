@@ -17,6 +17,10 @@
       </p>
     </div>
   </div>
+  <div id="my-alert" [ngClass]="{hide_alert:(first_selected_row_index > -1)}">
+    <p>Select one or more rows to delete</p>
+    <p><button class="btn" (click)="clearTimeout()">Ok</button></p>
+  </div>
   <div class="footer navbar-fixed-bottom">
     <footer>
       <p class="row text-center">This MVP is brought to you by none other than

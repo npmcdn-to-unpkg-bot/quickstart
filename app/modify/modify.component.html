@@ -83,6 +83,10 @@
         </div>
       </div>
     </form>
+    <div id="my-alert" [ngClass]="{hide_alert:selected_index != -1}">
+      <p>Select one driver to modify</p>
+      <p><button class="btn" (click)="cancel_modify()">Ok</button></p>
+    </div>
   </div>
   <div class="footer navbar-fixed-bottom">
     <footer>
