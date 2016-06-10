@@ -107,7 +107,7 @@ export class ModifyComponent implements OnInit {
     // find selected rows
     selected_index = this.driverService.find_first_selected_row();
 
-    if (selected_index < -1) {
+    if (selected_index < 0) {
       alert("Select one row to modify");
 
       // go back to list view

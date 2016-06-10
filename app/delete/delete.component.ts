@@ -15,10 +15,9 @@ import {TimerWrapper}         from '@angular/core/src/facade/async';
 
 export class DeleteComponent implements OnInit {
 
-  constructor (
-    private driverService: DriverService,
-    private router: Router
-  ) { }
+  constructor(private driverService:DriverService,
+              private router:Router) {
+  }
 
   private message = {
     success: '',
@@ -30,7 +29,7 @@ export class DeleteComponent implements OnInit {
   milliseconds_to_delay:number;
 
 
-  ngOnInit () {
+  ngOnInit() {
     console.debug('inside delete.component.ts ngInit()');
     this.milliseconds_to_delay = 4000;
     console.debug("delay " + this.milliseconds_to_delay + " before a driver delete");
@@ -54,12 +53,13 @@ export class DeleteComponent implements OnInit {
       // timerId gives user 4 seconds to reconsider deleting a driver.
       // If user does not press the 'Undo' button, delete_one_driver_from_database() will be run.
       this.timerId = TimerWrapper.setTimeout(() => {
-        this.delete_one_driver_from_database(first_selected_row_index)}, this.milliseconds_to_delay);
+        this.delete_one_driver_from_database(first_selected_row_index)
+      }, this.milliseconds_to_delay);
     }
   }
 
   /*
-      user did not press the Undo button before timeout expired after choosing to delete a driver
+   user did not press the Undo button before timeout expired after choosing to delete a driver
    */
   delete_one_driver_from_database(first_selected_row_index:number) {
     var drivername_to_delete:string;
@@ -79,7 +79,7 @@ export class DeleteComponent implements OnInit {
         .subscribe(
             driver => {
               var next_selected_row_index:number;
-              console.log( 'Delete driver ' + drivername_to_delete +
+              console.log('Delete driver ' + drivername_to_delete +
                   ' is complete. Checking for other selected rows.');
 
               TimerWrapper.clearTimeout(this.timerId);
@@ -110,4 +110,15 @@ export class DeleteComponent implements OnInit {
             }
         );
   }
+
+  clearTimeout() {
+    if (this.timerId != null) {
+      TimerWrapper.clearTimeout(this.timerId);
+      this.timerId = null;
+    }
+    // go to list view
+    this.router.navigate(['/']);
+    this.driverService.active_menu = "List";
+  }
+
 }

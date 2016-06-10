@@ -6,3 +6,7 @@ h1 {
 	color: #fff;
 	padding: .25em;
 }
+
+.nav.navbar-nav .active .router-link-active {
+	font-wight: bold;
+}
