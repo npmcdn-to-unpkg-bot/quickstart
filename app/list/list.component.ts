@@ -10,7 +10,7 @@ import { DriverService }      from '../services/driver.service';
   templateUrl: 'app/list/list.component.html',
   styleUrls:  ['app/list/list.component.css'],
   providers:  [ FORM_PROVIDERS, Driver ],
-  directives: [FORM_DIRECTIVES, NgClass]
+  directives: [ FORM_DIRECTIVES, NgClass ]
 })
 
 export class ListComponent implements OnInit {
