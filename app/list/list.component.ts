@@ -4,22 +4,18 @@ import { FORM_DIRECTIVES,
 import { NgClass }            from '@angular/common';
 import { Driver }             from '../driver';
 import { DriverService }      from '../services/driver.service';
-import { SelectService }      from '../services/select.service';
-import { ListService }        from '../services/list.service';
 
 @Component({
   selector: 'my-list',
   templateUrl: 'app/list/list.component.html',
   styleUrls:  ['app/list/list.component.css'],
-  providers:  [ FORM_PROVIDERS, ListService, SelectService, Driver ],
+  providers:  [ FORM_PROVIDERS, Driver ],
   directives: [FORM_DIRECTIVES, NgClass]
 })
 
 export class ListComponent implements OnInit {
 
-  constructor(
-              private _selectService:SelectService,
-              private driverService: DriverService) {}
+  constructor(private driverService: DriverService) {}
 
   drivers = this.driverService.driverArray;
 

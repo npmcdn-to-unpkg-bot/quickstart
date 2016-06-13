@@ -108,7 +108,7 @@ export class DriverService {
 
     var getHeaders = new Headers({'Content-Type': 'application/text'});
 
-    let list_url = "/app/services/list_endpoint.php";
+    let list_url = "./app/services/list_endpoint.php";
 
     driver_data = this.http.get(list_url, {headers: getHeaders})
         .map(this.extractDataGET)
@@ -276,7 +276,7 @@ export class DriverService {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
 
-    let add_url = "http://" + location.host + "/app/services/add_endpoint.php";
+    let add_url = "./app/services/add_endpoint.php";
 
     console.log("add_driver_to_database() found selected row: the driver '" +
         driver_json_input.drivername + "', POST to delete_url " + add_url + " with stringified_json '" +
@@ -332,7 +332,7 @@ export class DriverService {
     var stringified_json:string;
     var headers = new Headers({'Content-Type': 'application/json'});
     var options = new RequestOptions({headers: headers});
-    var delete_url = "http://" + location.host + "/app/services/delete_endpoint.php";
+    var delete_url = "./app/services/delete_endpoint.php";
 
     // Delete a driverArray member with selected == true from the driver database.
 
@@ -373,7 +373,7 @@ export class DriverService {
 
     var headers = new Headers({'Content-Type': 'application/json'});
     var options = new RequestOptions({headers: headers});
-    var modify_url = "http://" + location.host + "/app/services/modify_endpoint.php";
+    var modify_url = "./app/services/modify_endpoint.php";
 
     var stringified_json_input = JSON.stringify(driver_json_input);
 

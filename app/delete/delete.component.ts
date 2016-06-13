@@ -27,7 +27,7 @@ export class DeleteComponent implements OnInit {
   timerId:number;
   // give user 'milliseconds_to_delay' to reconsider deleting a driver
   milliseconds_to_delay:number;
-  first_selected_row_index;
+  first_selected_row_index:number;
 
 
   ngOnInit() {
